@@ -88,7 +88,7 @@ export default function Hero() {
     return () => mq.removeEventListener("change", update);
   }, [mounted]);
 
-  const showWaves = mounted && isDesktop && motionActive;
+  const showGlsl = mounted && isDesktop;
 
   return (
     <section
@@ -96,11 +96,8 @@ export default function Hero() {
       className="relative flex min-h-[100dvh] max-h-[100dvh] items-center justify-center overflow-hidden bg-green-abyss px-4 pt-16 pb-14 sm:px-6 md:px-8"
     >
       <div className="pointer-events-none absolute inset-0" aria-hidden="true">
-        {showWaves ? (
-          <GLSLHills />
-        ) : (
-          <HeroBackgroundFallback animate={motionActive} />
-        )}
+        <HeroBackgroundFallback animate={motionActive} isDesktop={isDesktop} />
+        {showGlsl ? <GLSLHills animate={motionActive} className="absolute inset-0 z-[2] h-full w-full" /> : null}
       </div>
 
       <div className="relative z-10 mx-auto flex max-w-3xl flex-col items-center text-center">

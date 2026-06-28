@@ -11,14 +11,17 @@ export default function GLSLHills({
   cameraZ = 125,
   planeSize = 256,
   speed = 0.5,
+  animate = true,
 }) {
   const containerRef = useRef(null);
   const speedRef = useRef(speed);
-  const { mounted, motionActive } = useMotionActive();
+  const animateRef = useRef(animate);
+  const { mounted } = useMotionActive();
   speedRef.current = speed;
+  animateRef.current = animate;
 
   useEffect(() => {
-    if (!mounted || !motionActive) return undefined;
+    if (!mounted) return undefined;
 
     const container = containerRef.current;
     if (!container) return undefined;
@@ -222,7 +225,7 @@ export default function GLSLHills({
 
       const delta = Math.min((now - lastFrameTime) / 1000, 0.1);
       lastFrameTime = now;
-      if (delta > 0) {
+      if (delta > 0 && animateRef.current) {
         plane.render(delta);
       }
 
@@ -273,7 +276,7 @@ export default function GLSLHills({
       renderer.dispose();
       canvas.remove();
     };
-  }, [mounted, motionActive, cameraZ, planeSize]);
+  }, [mounted, cameraZ, planeSize]);
 
   return (
     <div ref={containerRef} className={className} aria-hidden="true" />

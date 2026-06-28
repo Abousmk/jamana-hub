@@ -13,9 +13,11 @@ const WEAVE_PATHS = [
 
 export default function WeavePattern({
   opacity = 0.07,
+  mobileMaxOpacity,
   color = "#C8A951",
   tileSize = 100,
   className = "z-0",
+  animate: animateProp,
 }) {
   const patternId = useId().replace(/:/g, "");
   const { motionActive, mounted } = useMotionActive();
@@ -25,16 +27,17 @@ export default function WeavePattern({
     if (!mounted) return undefined;
 
     const mq = window.matchMedia("(max-width: 767px)");
+    const mobileCap = mobileMaxOpacity ?? 0.05;
     const update = () => {
-      setEffectiveOpacity(mq.matches ? Math.min(opacity, 0.05) : opacity);
+      setEffectiveOpacity(mq.matches ? Math.min(opacity, mobileCap) : opacity);
     };
     update();
     mq.addEventListener("change", update);
     return () => mq.removeEventListener("change", update);
-  }, [opacity, mounted]);
+  }, [mobileMaxOpacity, opacity, mounted]);
 
   const bleed = tileSize;
-  const animate = mounted && motionActive;
+  const animate = mounted && (animateProp ?? motionActive);
 
   const pattern = (
     <svg
