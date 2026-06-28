@@ -1,0 +1,133 @@
+.chroma-card-wrapper {
+  --mouse-x: 50%;
+  --mouse-y: 50%;
+  --spotlight-color: rgba(200, 169, 81, 0.15);
+  --card-border: rgba(200, 169, 81, 0.5);
+  --card-gradient: linear-gradient(145deg, #2c5f4b, #0d251d);
+  position: relative;
+}
+
+.chroma-card-wrapper::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    circle at var(--mouse-x) var(--mouse-y),
+    var(--spotlight-color),
+    transparent 70%
+  );
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.45s ease;
+  z-index: 3;
+}
+
+.chroma-card-wrapper:hover::before {
+  opacity: 1;
+}
+
+.chroma-card-wrapper--static::before {
+  display: none;
+}
+
+.chroma-card-wrapper.chroma-card-wrapper--solid {
+  background: var(--card-gradient);
+  border-color: var(--card-border);
+}
+
+.chroma-section {
+  position: relative;
+  --x: 50%;
+  --y: 50%;
+  --r: 220px;
+}
+
+.chroma-section__overlay,
+.chroma-section__fade {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 5;
+  border-radius: inherit;
+}
+
+.chroma-section__overlay {
+  backdrop-filter: grayscale(0.35) brightness(0.82);
+  -webkit-backdrop-filter: grayscale(0.35) brightness(0.82);
+  background: rgba(10, 28, 21, 0.08);
+  mask-image: radial-gradient(
+    circle var(--r) at var(--x) var(--y),
+    transparent 0%,
+    transparent 15%,
+    rgba(0, 0, 0, 0.1) 30%,
+    rgba(0, 0, 0, 0.22) 45%,
+    rgba(0, 0, 0, 0.35) 60%,
+    rgba(0, 0, 0, 0.5) 75%,
+    rgba(0, 0, 0, 0.68) 88%,
+    white 100%
+  );
+  -webkit-mask-image: radial-gradient(
+    circle var(--r) at var(--x) var(--y),
+    transparent 0%,
+    transparent 15%,
+    rgba(0, 0, 0, 0.1) 30%,
+    rgba(0, 0, 0, 0.22) 45%,
+    rgba(0, 0, 0, 0.35) 60%,
+    rgba(0, 0, 0, 0.5) 75%,
+    rgba(0, 0, 0, 0.68) 88%,
+    white 100%
+  );
+}
+
+.chroma-section__fade {
+  backdrop-filter: grayscale(0.35) brightness(0.82);
+  -webkit-backdrop-filter: grayscale(0.35) brightness(0.82);
+  background: rgba(10, 28, 21, 0.08);
+  mask-image: radial-gradient(
+    circle var(--r) at var(--x) var(--y),
+    white 0%,
+    white 15%,
+    rgba(255, 255, 255, 0.9) 30%,
+    rgba(255, 255, 255, 0.78) 45%,
+    rgba(255, 255, 255, 0.65) 60%,
+    rgba(255, 255, 255, 0.5) 75%,
+    rgba(255, 255, 255, 0.32) 88%,
+    transparent 100%
+  );
+  -webkit-mask-image: radial-gradient(
+    circle var(--r) at var(--x) var(--y),
+    white 0%,
+    white 15%,
+    rgba(255, 255, 255, 0.9) 30%,
+    rgba(255, 255, 255, 0.78) 45%,
+    rgba(255, 255, 255, 0.65) 60%,
+    rgba(255, 255, 255, 0.5) 75%,
+    rgba(255, 255, 255, 0.32) 88%,
+    transparent 100%
+  );
+  opacity: 1;
+  transition: opacity 0.25s ease;
+}
+
+.chroma-section--static .chroma-section__overlay,
+.chroma-section--static .chroma-section__fade {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .chroma-card-wrapper::before {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chroma-card-wrapper::before {
+    display: none;
+  }
+
+  .chroma-section--static .chroma-section__overlay,
+  .chroma-section--static .chroma-section__fade {
+    display: none;
+  }
+}
