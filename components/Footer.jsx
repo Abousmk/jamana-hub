@@ -23,7 +23,7 @@ export default function Footer() {
     <footer className="relative w-full overflow-hidden border-t border-green-line bg-green-abyss">
       <WeavePattern opacity={0.075} />
 
-      <div className="relative z-10 px-4 py-12 sm:px-6 md:py-14 lg:px-8">
+      <div className="relative z-[3] px-4 py-12 sm:px-6 md:py-14 lg:px-8">
         <div className="mx-auto flex w-full max-w-[1400px] flex-col gap-10 md:flex-row md:items-start md:justify-between md:gap-8">
           <div className="max-w-xs">
             <Link
@@ -99,7 +99,7 @@ export default function Footer() {
 
       <FooterSignature />
 
-      <div className="relative z-10 px-4 pb-10 sm:px-6 lg:px-8">
+      <div className="relative z-[3] px-4 pb-10 sm:px-6 lg:px-8">
         <div className="mx-auto w-full max-w-[1400px] border-t border-gold/25 pt-6 text-center">
           <p className="font-body text-xs text-cream/35">
             © 2026 Jamana Hub. {t.footer.rights}
