@@ -76,3 +76,43 @@ body {
   word-break: normal;
   overflow-wrap: normal;
 }
+
+@keyframes weave-drift {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(100px, 100px, 0);
+  }
+}
+
+.weave-drift {
+  animation: weave-drift 34s linear infinite;
+  will-change: transform;
+}
+
+@keyframes hero-fallback-shimmer {
+  0%,
+  100% {
+    opacity: 0.03;
+  }
+  50% {
+    opacity: 0.06;
+  }
+}
+
+.hero-fallback-shimmer {
+  background: radial-gradient(
+    ellipse 80% 60% at 50% 100%,
+    rgba(200, 169, 81, 0.12),
+    transparent 70%
+  );
+  animation: hero-fallback-shimmer 12s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .weave-drift,
+  .hero-fallback-shimmer {
+    animation: none;
+  }
+}

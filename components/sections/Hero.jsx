@@ -1,15 +1,20 @@
 "use client";
 
+import { useEffect, useState } from "react";
+import dynamic from "next/dynamic";
 import { motion } from "framer-motion";
 import { EASE, fadeUp } from "@/lib/motion";
 import { useLang } from "@/lib/i18n";
 import { useMotionActive } from "@/lib/useMotionActive";
 import Emblem from "@/components/ui/Emblem";
-import GLSLHills from "@/components/ui/GLSLHills";
+import HeroBackgroundFallback from "@/components/ui/HeroBackgroundFallback";
 import SectionEyebrow from "@/components/ui/SectionEyebrow";
 import HeroScrollArrow from "@/components/ui/HeroScrollArrow";
 
+const GLSLHills = dynamic(() => import("@/components/ui/GLSLHills"), { ssr: false });
+
 const GOLD_WORD_INDEX = { fr: 2, en: 4 };
+const DESKTOP_MQ = "(min-width: 769px)";
 
 const staticFade = {
   hidden: { opacity: 1, y: 0 },
@@ -70,7 +75,20 @@ function HeroTitle({ text, className, delay, disableMotion, motionKey, lang }) {
 
 export default function Hero() {
   const { t, lang } = useLang();
-  const { disableMotion, motionKey } = useMotionActive();
+  const { disableMotion, motionKey, mounted, motionActive } = useMotionActive();
+  const [isDesktop, setIsDesktop] = useState(false);
+
+  useEffect(() => {
+    if (!mounted) return undefined;
+
+    const mq = window.matchMedia(DESKTOP_MQ);
+    const update = () => setIsDesktop(mq.matches);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, [mounted]);
+
+  const showWaves = mounted && isDesktop && motionActive;
 
   return (
     <section
@@ -78,7 +96,11 @@ export default function Hero() {
       className="relative flex min-h-[100dvh] max-h-[100dvh] items-center justify-center overflow-hidden bg-green-abyss px-4 pt-16 pb-14 sm:px-6 md:px-8"
     >
       <div className="pointer-events-none absolute inset-0" aria-hidden="true">
-        <GLSLHills />
+        {showWaves ? (
+          <GLSLHills />
+        ) : (
+          <HeroBackgroundFallback animate={motionActive} />
+        )}
       </div>
 
       <div className="relative z-10 mx-auto flex max-w-3xl flex-col items-center text-center">

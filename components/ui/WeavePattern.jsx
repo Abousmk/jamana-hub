@@ -1,6 +1,5 @@
 "use client";
 
-import { motion, useScroll, useTransform } from "framer-motion";
 import { useEffect, useId, useState } from "react";
 import { useMotionActive } from "@/lib/useMotionActive";
 
@@ -12,11 +11,8 @@ const WEAVE_PATHS = [
   "M75 0 V25 H50 V0 H25 V25 H0 V50",
 ];
 
-const PARALLAX_MAX = 32;
-const LOOP_DURATION = 34;
-
 export default function WeavePattern({
-  opacity = 0.06,
+  opacity = 0.07,
   color = "#C8A951",
   tileSize = 100,
   className = "z-0",
@@ -24,9 +20,6 @@ export default function WeavePattern({
   const patternId = useId().replace(/:/g, "");
   const { motionActive, mounted } = useMotionActive();
   const [effectiveOpacity, setEffectiveOpacity] = useState(opacity);
-
-  const { scrollYProgress } = useScroll();
-  const y = useTransform(scrollYProgress, [0, 1], [0, PARALLAX_MAX]);
 
   useEffect(() => {
     if (!mounted) return undefined;
@@ -40,7 +33,8 @@ export default function WeavePattern({
     return () => mq.removeEventListener("change", update);
   }, [opacity, mounted]);
 
-  const layerStyle = { opacity: effectiveOpacity };
+  const bleed = tileSize;
+  const animate = mounted && motionActive;
 
   const pattern = (
     <svg
@@ -72,40 +66,23 @@ export default function WeavePattern({
     </svg>
   );
 
-  const bleed = tileSize;
-
   return (
     <div
       className={`pointer-events-none absolute inset-0 h-full w-full ${className}`}
       aria-hidden="true"
     >
-      {motionActive ? (
-        <motion.div
-          className="absolute will-change-transform"
-          style={{
-            top: -bleed,
-            right: -bleed,
-            bottom: -bleed,
-            left: -bleed,
-            ...layerStyle,
-          }}
-          initial={{ x: 0, y: 0 }}
-          animate={{ x: tileSize, y: tileSize }}
-          transition={{
-            duration: LOOP_DURATION,
-            repeat: Infinity,
-            ease: "linear",
-          }}
-        >
-          <motion.div className="h-full w-full will-change-transform" style={{ y }}>
-            {pattern}
-          </motion.div>
-        </motion.div>
-      ) : (
-        <div className="absolute inset-0" style={layerStyle}>
-          {pattern}
-        </div>
-      )}
+      <div
+        className={`weave-layer absolute ${animate ? "weave-drift" : ""}`}
+        style={{
+          top: -bleed,
+          right: -bleed,
+          bottom: -bleed,
+          left: -bleed,
+          opacity: effectiveOpacity,
+        }}
+      >
+        {pattern}
+      </div>
     </div>
   );
 }

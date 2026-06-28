@@ -4,10 +4,10 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { useMotionActive } from "@/lib/useMotionActive";
 
-const JAMANA_SIZE = "clamp(3.4rem, 14vw, 7.8rem)";
-const HUB_SIZE = "clamp(7rem, 30vw, 17rem)";
+const JAMANA_SIZE = "clamp(4rem, 18vw, 13rem)";
+const HUB_SIZE = "clamp(6rem, 26vw, 18rem)";
 const STROKE = "1px rgba(200, 169, 81, 0.5)";
-const STATIC_FILL = "rgba(200, 169, 81, 0.5)";
+const MOBILE_FILL = "rgba(200, 169, 81, 0.35)";
 const GOLD = "#C8A951";
 
 const jamanaBaseClass =
@@ -22,7 +22,7 @@ export default function FooterSignature() {
   useEffect(() => {
     if (!mounted) return undefined;
 
-    const mq = window.matchMedia("(pointer: fine) and (min-width: 768px)");
+    const mq = window.matchMedia("(pointer: fine) and (min-width: 769px)");
     const update = () => setIsPointerFine(mq.matches);
     update();
     mq.addEventListener("change", update);
@@ -30,7 +30,7 @@ export default function FooterSignature() {
   }, [mounted]);
 
   const useDesktopHover = mounted && motionActive && isPointerFine;
-  const useMobileReveal = mounted && motionActive && !isPointerFine;
+  const useMobileFill = mounted && motionActive && !isPointerFine;
 
   const handleMouseMove = useCallback(
     (e) => {
@@ -45,29 +45,27 @@ export default function FooterSignature() {
     setMouseX(null);
   }, []);
 
-  let fillStyle = { color: "transparent" };
+  let hoverFillStyle = null;
 
-  if (!motionActive) {
-    fillStyle = { color: STATIC_FILL };
-  } else if (useDesktopHover && mouseX !== null) {
+  if (useDesktopHover && mouseX !== null) {
     const rect = containerRef.current?.getBoundingClientRect();
     const width = rect?.width ?? 400;
     const centerX = width / 2;
     const proximity = 1 - Math.min(Math.abs(mouseX - centerX) / (width / 2), 1);
-    const opacity = 0.15 + proximity * 0.85;
+    const opacity = 0.12 + proximity * 0.88;
 
-    fillStyle = {
+    hoverFillStyle = {
       color: GOLD,
       opacity,
-      WebkitMaskImage: `radial-gradient(circle 150px at ${mouseX}px 50%, black 0%, transparent 100%)`,
-      maskImage: `radial-gradient(circle 150px at ${mouseX}px 50%, black 0%, transparent 100%)`,
+      WebkitMaskImage: `radial-gradient(circle 180px at ${mouseX}px 50%, black 0%, transparent 100%)`,
+      maskImage: `radial-gradient(circle 180px at ${mouseX}px 50%, black 0%, transparent 100%)`,
     };
   }
 
   return (
     <div
       ref={containerRef}
-      className="relative min-h-[200px] overflow-hidden md:min-h-[260px] lg:min-h-[300px]"
+      className="relative min-h-[220px] overflow-hidden md:min-h-[280px] lg:min-h-[320px]"
       onMouseMove={useDesktopHover ? handleMouseMove : undefined}
       onMouseLeave={useDesktopHover ? handleMouseLeave : undefined}
       aria-hidden="true"
@@ -90,25 +88,25 @@ export default function FooterSignature() {
         JAMANA
       </div>
 
-      {useMobileReveal ? (
+      {useMobileFill ? (
         <motion.div
           className={jamanaBaseClass}
-          style={{ "--sig-size": JAMANA_SIZE, color: STATIC_FILL }}
-          initial={{ opacity: 0 }}
+          style={{ "--sig-size": JAMANA_SIZE, color: MOBILE_FILL }}
+          initial={{ opacity: 0.55 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true, amount: 0.35 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
         >
           JAMANA
         </motion.div>
-      ) : (
+      ) : hoverFillStyle ? (
         <div
-          className={`${jamanaBaseClass} transition-opacity duration-300`}
-          style={{ "--sig-size": JAMANA_SIZE, ...fillStyle }}
+          className={`${jamanaBaseClass} transition-opacity duration-200`}
+          style={{ "--sig-size": JAMANA_SIZE, ...hoverFillStyle }}
         >
           JAMANA
         </div>
-      )}
+      ) : null}
     </div>
   );
 }

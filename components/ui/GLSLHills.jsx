@@ -1,12 +1,10 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import * as THREE from "three";
+import { useMotionActive } from "@/lib/useMotionActive";
 
-function prefersReducedMotion() {
-  if (typeof window === "undefined") return false;
-  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-}
+const DESKTOP_MQ = "(min-width: 769px)";
 
 export default function GLSLHills({
   className = "absolute inset-0 h-full w-full",
@@ -16,18 +14,17 @@ export default function GLSLHills({
 }) {
   const containerRef = useRef(null);
   const speedRef = useRef(speed);
-  const [ready, setReady] = useState(false);
+  const { mounted, motionActive } = useMotionActive();
   speedRef.current = speed;
 
   useEffect(() => {
-    setReady(true);
-  }, []);
-
-  useEffect(() => {
-    if (!ready) return undefined;
+    if (!mounted || !motionActive) return undefined;
 
     const container = containerRef.current;
     if (!container) return undefined;
+
+    const desktopMq = window.matchMedia(DESKTOP_MQ);
+    if (!desktopMq.matches) return undefined;
 
     const canvas = document.createElement("canvas");
     canvas.className = "block h-full w-full";
@@ -36,15 +33,7 @@ export default function GLSLHills({
 
     let active = true;
     let frameId = null;
-    let shouldAnimate = !prefersReducedMotion();
     let lastFrameTime = performance.now();
-
-    const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const onMotionChange = (event) => {
-      shouldAnimate = !event.matches;
-      lastFrameTime = performance.now();
-    };
-    motionQuery.addEventListener("change", onMotionChange);
 
     const onVisibilityChange = () => {
       if (!document.hidden) {
@@ -231,12 +220,10 @@ export default function GLSLHills({
     const render = (now) => {
       resize();
 
-      if (shouldAnimate) {
-        const delta = Math.min((now - lastFrameTime) / 1000, 0.1);
-        lastFrameTime = now;
-        if (delta > 0) {
-          plane.render(delta);
-        }
+      const delta = Math.min((now - lastFrameTime) / 1000, 0.1);
+      lastFrameTime = now;
+      if (delta > 0) {
+        plane.render(delta);
       }
 
       renderer.render(scene, camera);
@@ -247,6 +234,17 @@ export default function GLSLHills({
       render(now);
       frameId = requestAnimationFrame(renderLoop);
     };
+
+    const onDesktopChange = (event) => {
+      if (!event.matches) {
+        active = false;
+        if (frameId !== null) {
+          cancelAnimationFrame(frameId);
+          frameId = null;
+        }
+      }
+    };
+    desktopMq.addEventListener("change", onDesktopChange);
 
     renderer.setClearColor(0x000000, 0);
     camera.position.set(0, 16, cameraZ);
@@ -266,7 +264,7 @@ export default function GLSLHills({
       if (frameId !== null) {
         cancelAnimationFrame(frameId);
       }
-      motionQuery.removeEventListener("change", onMotionChange);
+      desktopMq.removeEventListener("change", onDesktopChange);
       document.removeEventListener("visibilitychange", onVisibilityChange);
       resizeObserver.disconnect();
       scene.remove(plane.mesh);
@@ -275,7 +273,7 @@ export default function GLSLHills({
       renderer.dispose();
       canvas.remove();
     };
-  }, [ready, cameraZ, planeSize]);
+  }, [mounted, motionActive, cameraZ, planeSize]);
 
   return (
     <div ref={containerRef} className={className} aria-hidden="true" />
