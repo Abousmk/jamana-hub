@@ -9,10 +9,11 @@ import GoldButton from "@/components/ui/GoldButton";
 
 export default function Testimonials() {
   const { t } = useLang();
-  const { disableMotion } = useMotionActive();
+  const { disableMotion, motionKey } = useMotionActive();
 
   return (
     <motion.section
+      key={motionKey}
       variants={disableMotion ? staticFade : sectionFadeUp}
       initial="hidden"
       whileInView="show"

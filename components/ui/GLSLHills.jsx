@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 
 function prefersReducedMotion() {
@@ -16,11 +16,18 @@ export default function GLSLHills({
 }) {
   const containerRef = useRef(null);
   const speedRef = useRef(speed);
+  const [ready, setReady] = useState(false);
   speedRef.current = speed;
 
   useEffect(() => {
+    setReady(true);
+  }, []);
+
+  useEffect(() => {
+    if (!ready) return undefined;
+
     const container = containerRef.current;
-    if (!container) return;
+    if (!container) return undefined;
 
     const canvas = document.createElement("canvas");
     canvas.className = "block h-full w-full";
@@ -35,8 +42,16 @@ export default function GLSLHills({
     const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
     const onMotionChange = (event) => {
       shouldAnimate = !event.matches;
+      lastFrameTime = performance.now();
     };
     motionQuery.addEventListener("change", onMotionChange);
+
+    const onVisibilityChange = () => {
+      if (!document.hidden) {
+        lastFrameTime = performance.now();
+      }
+    };
+    document.addEventListener("visibilitychange", onVisibilityChange);
 
     class Plane {
       constructor() {
@@ -213,11 +228,10 @@ export default function GLSLHills({
       camera.updateProjectionMatrix();
     };
 
-    const render = () => {
+    const render = (now) => {
       resize();
 
       if (shouldAnimate) {
-        const now = performance.now();
         const delta = Math.min((now - lastFrameTime) / 1000, 0.1);
         lastFrameTime = now;
         if (delta > 0) {
@@ -228,9 +242,9 @@ export default function GLSLHills({
       renderer.render(scene, camera);
     };
 
-    const renderLoop = () => {
+    const renderLoop = (now) => {
       if (!active) return;
-      render();
+      render(now);
       frameId = requestAnimationFrame(renderLoop);
     };
 
@@ -239,13 +253,13 @@ export default function GLSLHills({
     camera.lookAt(new THREE.Vector3(0, 28, 0));
     scene.add(plane.mesh);
 
-    const resizeObserver = new ResizeObserver(resize);
+    const resizeObserver = new ResizeObserver(() => resize());
     resizeObserver.observe(container);
     const hero = container.closest("#hero");
     if (hero) resizeObserver.observe(hero);
 
     resize();
-    renderLoop();
+    frameId = requestAnimationFrame(renderLoop);
 
     return () => {
       active = false;
@@ -253,6 +267,7 @@ export default function GLSLHills({
         cancelAnimationFrame(frameId);
       }
       motionQuery.removeEventListener("change", onMotionChange);
+      document.removeEventListener("visibilitychange", onVisibilityChange);
       resizeObserver.disconnect();
       scene.remove(plane.mesh);
       plane.mesh.geometry.dispose();
@@ -260,7 +275,7 @@ export default function GLSLHills({
       renderer.dispose();
       canvas.remove();
     };
-  }, [cameraZ, planeSize]);
+  }, [ready, cameraZ, planeSize]);
 
   return (
     <div ref={containerRef} className={className} aria-hidden="true" />

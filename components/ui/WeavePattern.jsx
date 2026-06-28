@@ -13,6 +13,7 @@ const WEAVE_PATHS = [
 ];
 
 const PARALLAX_MAX = 32;
+const LOOP_DURATION = 34;
 
 export default function WeavePattern({
   opacity = 0.06,
@@ -38,6 +39,8 @@ export default function WeavePattern({
     mq.addEventListener("change", update);
     return () => mq.removeEventListener("change", update);
   }, [opacity, mounted]);
+
+  const layerStyle = { opacity: effectiveOpacity };
 
   const pattern = (
     <svg
@@ -69,7 +72,7 @@ export default function WeavePattern({
     </svg>
   );
 
-  const layerStyle = { opacity: effectiveOpacity };
+  const bleed = tileSize;
 
   return (
     <div
@@ -78,10 +81,25 @@ export default function WeavePattern({
     >
       {motionActive ? (
         <motion.div
-          className="absolute inset-0 will-change-transform"
-          style={{ y, ...layerStyle }}
+          className="absolute will-change-transform"
+          style={{
+            top: -bleed,
+            right: -bleed,
+            bottom: -bleed,
+            left: -bleed,
+            ...layerStyle,
+          }}
+          initial={{ x: 0, y: 0 }}
+          animate={{ x: tileSize, y: tileSize }}
+          transition={{
+            duration: LOOP_DURATION,
+            repeat: Infinity,
+            ease: "linear",
+          }}
         >
-          {pattern}
+          <motion.div className="h-full w-full will-change-transform" style={{ y }}>
+            {pattern}
+          </motion.div>
         </motion.div>
       ) : (
         <div className="absolute inset-0" style={layerStyle}>

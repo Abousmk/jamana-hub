@@ -16,9 +16,10 @@ const staticFade = {
   show: { opacity: 1, y: 0 },
 };
 
-function DelayedFade({ delay, children, disableMotion }) {
+function DelayedFade({ delay, children, disableMotion, motionKey }) {
   return (
     <motion.div
+      key={motionKey}
       variants={disableMotion ? staticFade : fadeUp}
       initial={disableMotion ? "show" : "hidden"}
       animate="show"
@@ -31,7 +32,7 @@ function DelayedFade({ delay, children, disableMotion }) {
   );
 }
 
-function HeroTitle({ text, className, delay, disableMotion, lang }) {
+function HeroTitle({ text, className, delay, disableMotion, motionKey, lang }) {
   const words = text.trim().split(/ +/).filter(Boolean);
   const goldIndex = GOLD_WORD_INDEX[lang] ?? 2;
 
@@ -50,6 +51,7 @@ function HeroTitle({ text, className, delay, disableMotion, lang }) {
 
   return (
     <motion.h1
+      key={motionKey}
       variants={fadeUp}
       initial="hidden"
       animate="show"
@@ -68,7 +70,7 @@ function HeroTitle({ text, className, delay, disableMotion, lang }) {
 
 export default function Hero() {
   const { t, lang } = useLang();
-  const { disableMotion } = useMotionActive();
+  const { disableMotion, motionKey } = useMotionActive();
 
   return (
     <section
@@ -82,7 +84,7 @@ export default function Hero() {
       <div className="relative z-10 mx-auto flex max-w-3xl flex-col items-center text-center">
         <Emblem variant="hero" />
 
-        <DelayedFade delay={0.45} disableMotion={disableMotion}>
+        <DelayedFade delay={0.45} disableMotion={disableMotion} motionKey={motionKey}>
           <SectionEyebrow className="mt-7">{t.hero.eyebrow}</SectionEyebrow>
         </DelayedFade>
 
@@ -91,10 +93,11 @@ export default function Hero() {
           lang={lang}
           delay={0.55}
           disableMotion={disableMotion}
+          motionKey={motionKey}
           className="title-display text-balance mt-4 font-display text-[clamp(2rem,7vw,4.5rem)] font-normal leading-[1.12] tracking-[-0.02em] drop-shadow-[0_2px_20px_rgba(10,28,21,0.75)]"
         />
 
-        <DelayedFade delay={0.85} disableMotion={disableMotion}>
+        <DelayedFade delay={0.85} disableMotion={disableMotion} motionKey={motionKey}>
           <p className="text-pretty mt-5 max-w-[540px] font-body text-[0.95rem] leading-relaxed text-cream/70 md:text-lg">
             {t.hero.subtitle}
           </p>
@@ -102,7 +105,7 @@ export default function Hero() {
       </div>
 
       <div className="absolute bottom-6 left-1/2 z-10 -translate-x-1/2 sm:bottom-8">
-        <DelayedFade delay={1.05} disableMotion={disableMotion}>
+        <DelayedFade delay={1.05} disableMotion={disableMotion} motionKey={motionKey}>
           <HeroScrollArrow label={t.hero.scrollLabel} />
         </DelayedFade>
       </div>

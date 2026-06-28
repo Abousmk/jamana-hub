@@ -42,10 +42,11 @@ function HubSectionHeader({ eyebrow, title, subtitle, className = "" }) {
 }
 
 function HubSectionReveal({ children, className = "" }) {
-  const { disableMotion } = useMotionActive();
+  const { disableMotion, motionKey } = useMotionActive();
 
   return (
     <motion.div
+      key={motionKey}
       variants={disableMotion ? staticFade : sectionFadeUp}
       initial="hidden"
       whileInView="show"

@@ -49,7 +49,7 @@ function WatermarkParallax({ className = "" }) {
 
 function HeroEmblem() {
   const sectionRef = useRef(null);
-  const { disableMotion, motionActive } = useMotionActive();
+  const { disableMotion, motionActive, motionKey } = useMotionActive();
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -61,6 +61,7 @@ function HeroEmblem() {
   return (
     <div ref={sectionRef} className="relative w-[110px] md:w-[160px]">
       <motion.div
+        key={motionKey}
         variants={disableMotion ? staticReveal : emblemReveal}
         initial={disableMotion ? "show" : "hidden"}
         animate="show"

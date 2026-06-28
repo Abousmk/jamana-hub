@@ -7,12 +7,13 @@ import { useMotionActive } from "@/lib/useMotionActive";
 
 export default function StatsGrid() {
   const { t } = useLang();
-  const { disableMotion } = useMotionActive();
+  const { disableMotion, motionKey } = useMotionActive();
   const { items, source } = t.stats;
 
   return (
     <div>
       <motion.div
+        key={motionKey}
         variants={disableMotion ? staticFade : stagger}
         initial="hidden"
         whileInView="show"

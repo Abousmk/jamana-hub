@@ -5,9 +5,9 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import {
   AnimatePresence,
   motion,
-  useReducedMotion,
 } from "framer-motion";
 import { useLang } from "@/lib/i18n";
+import { useMotionActive } from "@/lib/useMotionActive";
 import { EASE, fadeUp, stagger } from "@/lib/motion";
 import { EMBLEM_SRC, IMAGE_QUALITY, IMAGE_SIZES } from "@/lib/imageConfig";
 
@@ -225,16 +225,11 @@ function AmbienceToggle({ disabled }) {
 
 export default function IntroGate() {
   const { setLang } = useLang();
-  const reducedMotion = useReducedMotion();
-  const [mounted, setMounted] = useState(false);
+  const { reducedMotion, mounted, motionKey } = useMotionActive();
   const [visible, setVisible] = useState(true);
   const [exiting, setExiting] = useState(false);
   const [isDesktop, setIsDesktop] = useState(false);
   const [audioAvailable, setAudioAvailable] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   useEffect(() => {
     const mq = window.matchMedia("(min-width: 768px)");
@@ -266,6 +261,7 @@ export default function IntroGate() {
 
   return (
     <motion.div
+      key={motionKey}
       className={`fixed inset-0 z-[100] flex items-center justify-center overflow-hidden bg-green-abyss${
         exiting ? " pointer-events-none" : ""
       }`}

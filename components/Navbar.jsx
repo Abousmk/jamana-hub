@@ -52,7 +52,7 @@ const staticNav = {
 
 export default function Navbar() {
 
-  const { disableMotion } = useMotionActive();
+  const { disableMotion, motionKey } = useMotionActive();
 
   const [scrolled, setScrolled] = useState(false);
 
@@ -77,6 +77,8 @@ export default function Navbar() {
   return (
 
     <motion.header
+
+      key={motionKey}
 
       variants={disableMotion ? staticNav : navSlide}
 

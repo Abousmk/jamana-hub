@@ -17,7 +17,7 @@ export default function FooterSignature() {
   const containerRef = useRef(null);
   const [mouseX, setMouseX] = useState(null);
   const [isPointerFine, setIsPointerFine] = useState(false);
-  const { motionActive, disableMotion, mounted } = useMotionActive();
+  const { motionActive, mounted } = useMotionActive();
 
   useEffect(() => {
     if (!mounted) return undefined;
@@ -29,9 +29,8 @@ export default function FooterSignature() {
     return () => mq.removeEventListener("change", update);
   }, [mounted]);
 
-  const useDesktopHover = mounted && isPointerFine && !disableMotion;
-  const useMobileReveal = mounted && !isPointerFine && motionActive;
-  const useStaticFill = disableMotion || (!useDesktopHover && !useMobileReveal && mounted);
+  const useDesktopHover = mounted && motionActive && isPointerFine;
+  const useMobileReveal = mounted && motionActive && !isPointerFine;
 
   const handleMouseMove = useCallback(
     (e) => {
@@ -48,7 +47,7 @@ export default function FooterSignature() {
 
   let fillStyle = { color: "transparent" };
 
-  if (useStaticFill) {
+  if (!motionActive) {
     fillStyle = { color: STATIC_FILL };
   } else if (useDesktopHover && mouseX !== null) {
     const rect = containerRef.current?.getBoundingClientRect();
