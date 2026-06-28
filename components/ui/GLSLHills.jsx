@@ -14,19 +14,23 @@ export default function GLSLHills({
   planeSize = 256,
   speed = 0.5,
 }) {
-  const canvasRef = useRef(null);
   const containerRef = useRef(null);
   const speedRef = useRef(speed);
   speedRef.current = speed;
 
   useEffect(() => {
-    const canvas = canvasRef.current;
     const container = containerRef.current;
-    if (!canvas || !container) return;
+    if (!container) return;
+
+    const canvas = document.createElement("canvas");
+    canvas.className = "block h-full w-full";
+    canvas.setAttribute("aria-hidden", "true");
+    container.appendChild(canvas);
 
     let active = true;
     let frameId = null;
     let shouldAnimate = !prefersReducedMotion();
+    let lastFrameTime = performance.now();
 
     const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
     const onMotionChange = (event) => {
@@ -190,8 +194,6 @@ export default function GLSLHills({
     });
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(45, 1, 1, 10000);
-    const clock = new THREE.Clock();
-    clock.start();
     const plane = new Plane();
 
     const getSize = () => {
@@ -213,12 +215,16 @@ export default function GLSLHills({
 
     const render = () => {
       resize();
+
       if (shouldAnimate) {
-        const delta = clock.getDelta();
+        const now = performance.now();
+        const delta = Math.min((now - lastFrameTime) / 1000, 0.1);
+        lastFrameTime = now;
         if (delta > 0) {
           plane.render(delta);
         }
       }
+
       renderer.render(scene, camera);
     };
 
@@ -252,12 +258,11 @@ export default function GLSLHills({
       plane.mesh.geometry.dispose();
       plane.mesh.material.dispose();
       renderer.dispose();
+      canvas.remove();
     };
   }, [cameraZ, planeSize]);
 
   return (
-    <div ref={containerRef} className={className} aria-hidden="true">
-      <canvas ref={canvasRef} className="block h-full w-full" />
-    </div>
+    <div ref={containerRef} className={className} aria-hidden="true" />
   );
 }
