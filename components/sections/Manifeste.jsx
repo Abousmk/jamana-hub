@@ -5,6 +5,7 @@ import { motion, useReducedMotion, useTransform } from "framer-motion";
 import { replayViewport, softFadeUp, staticFade } from "@/lib/motion";
 import { useLang } from "@/lib/i18n";
 import { images } from "@/lib/images";
+import { IMAGE_QUALITY, IMAGE_SIZES } from "@/lib/imageConfig";
 import SectionEyebrow from "@/components/ui/SectionEyebrow";
 import ScrollPinSection, { PinMobileFallback } from "@/components/ui/ScrollPinSection";
 import { useScrollFade } from "@/lib/scroll";
@@ -142,7 +143,8 @@ export default function Manifeste() {
                 src={images.manifeste.src}
                 alt={images.manifeste.alt[lang]}
                 fill
-                sizes="100vw"
+                quality={IMAGE_QUALITY.fullscreen}
+                sizes={IMAGE_SIZES.full}
                 className="object-cover object-top opacity-40"
               />
               <div className="absolute inset-0 bg-green-abyss/82" />

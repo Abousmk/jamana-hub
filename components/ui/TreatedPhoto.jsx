@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useLang } from "@/lib/i18n";
+import { EMBLEM_SRC, IMAGE_QUALITY } from "@/lib/imageConfig";
 
 export default function TreatedPhoto({ caption, hue = 158, height = "62vh" }) {
   const { lang } = useLang();
@@ -39,10 +40,12 @@ export default function TreatedPhoto({ caption, hue = 158, height = "62vh" }) {
         aria-hidden="true"
       >
         <Image
-          src="/Jamana_embleme_seul_transparent.png"
+          src={EMBLEM_SRC}
           alt=""
           width={180}
           height={180}
+          quality={IMAGE_QUALITY.emblem}
+          sizes="180px"
           className="h-auto w-[180px] opacity-[0.16]"
         />
       </div>

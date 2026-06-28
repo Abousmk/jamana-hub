@@ -1,7 +1,8 @@
 "use client";
 
 import { useCallback } from "react";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
+import { useMotionActive } from "@/lib/useMotionActive";
 
 function ChevronDown({ className }) {
   return (
@@ -22,7 +23,7 @@ function ChevronDown({ className }) {
 }
 
 export default function HeroScrollArrow({ label }) {
-  const reducedMotion = useReducedMotion();
+  const { motionActive, reducedMotion } = useMotionActive();
 
   const scrollToHub = useCallback(() => {
     const hub = document.getElementById("hub");
@@ -50,16 +51,16 @@ export default function HeroScrollArrow({ label }) {
         aria-hidden="true"
       />
 
-      {reducedMotion ? (
-        <ChevronDown className="relative h-7 w-7 text-gold drop-shadow-[0_0_10px_rgba(200,169,81,0.5)]" />
-      ) : (
-        <motion.span
+      {motionActive ? (
+        <motion.div
           className="relative flex items-center justify-center"
           animate={{ scale: [1, 1.1, 1], opacity: [0.8, 1, 0.8] }}
           transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }}
         >
           <ChevronDown className="h-7 w-7 text-gold drop-shadow-[0_0_14px_rgba(200,169,81,0.65)]" />
-        </motion.span>
+        </motion.div>
+      ) : (
+        <ChevronDown className="relative h-7 w-7 text-gold drop-shadow-[0_0_10px_rgba(200,169,81,0.5)]" />
       )}
     </button>
   );

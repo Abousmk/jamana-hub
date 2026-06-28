@@ -8,6 +8,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SectionEyebrow from "@/components/ui/SectionEyebrow";
 import MediaContactForm from "@/components/sections/MediaContactForm";
+import WeavePattern from "@/components/ui/WeavePattern";
 import { ACTIVE_SOCIAL_LINKS } from "@/lib/social";
 
 const staticFade = {
@@ -24,13 +25,18 @@ export default function MediaPage() {
   return (
     <>
       <Navbar />
-      <main className="min-h-screen bg-green-abyss px-5 pt-24 pb-16 md:px-8 md:pt-28 md:pb-20">
+      <main className="relative min-h-screen overflow-hidden px-5 pt-24 pb-16 md:px-8 md:pt-28 md:pb-20">
+        <div
+          className="pointer-events-none absolute inset-0 bg-gradient-to-b from-green-deep/78 via-green-deep/68 to-green-abyss/78"
+          aria-hidden="true"
+        />
+        <WeavePattern opacity={0.08} className="z-[1]" />
         <motion.div
           variants={reducedMotion ? staticFade : fadeUp}
           initial="hidden"
           animate="show"
           transition={reducedMotion ? undefined : { duration: 0.7, ease: EASE }}
-          className="mx-auto flex max-w-2xl flex-col items-center text-center"
+          className="relative z-10 mx-auto flex max-w-2xl flex-col items-center text-center"
         >
           <SectionEyebrow>{m.eyebrow}</SectionEyebrow>
 

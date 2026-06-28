@@ -6,6 +6,7 @@ import { useRef } from "react";
 import { fadeUp, stagger, staticFade } from "@/lib/motion";
 import { useLang } from "@/lib/i18n";
 import GoldButton from "@/components/ui/GoldButton";
+import { EMBLEM_SRC, IMAGE_QUALITY } from "@/lib/imageConfig";
 
 function GoldLine({ progress, reducedMotion }) {
   const scaleX = useTransform(progress, [0, 0.4], [0, 1]);
@@ -56,10 +57,12 @@ export default function Closer() {
         aria-hidden="true"
       >
         <Image
-          src="/Jamana_embleme_seul_transparent.png"
+          src={EMBLEM_SRC}
           alt=""
           width={420}
           height={420}
+          quality={IMAGE_QUALITY.emblem}
+          sizes="420px"
           className="h-auto w-[min(85vw,420px)] opacity-[0.07]"
         />
       </div>

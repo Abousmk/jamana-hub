@@ -1,4 +1,5 @@
 import { Playfair_Display, Lato, Montserrat } from "next/font/google";
+import GlobalBackground from "@/components/GlobalBackground";
 import Providers from "@/components/Providers";
 import "./globals.css";
 
@@ -22,9 +23,13 @@ const montserrat = Montserrat({
 });
 
 export const metadata = {
-  title: "Jamana Hub — Foi. Ambition. Excellence.",
+  title: "jamanahub — Foi. Ambition. Excellence.",
   description:
     "Réseau privé sélectif pour jeunes musulmans professionnels et entrepreneurs au Canada.",
+  icons: {
+    icon: "/Jamana_embleme_seul_transparent.png",
+    apple: "/Jamana_embleme_seul_transparent.png",
+  },
 };
 
 export default function RootLayout({ children }) {
@@ -33,8 +38,11 @@ export default function RootLayout({ children }) {
       lang="fr"
       className={`${playfair.variable} ${lato.variable} ${montserrat.variable} h-full antialiased`}
     >
-      <body className="min-h-full bg-green-abyss font-body text-cream">
-        <Providers>{children}</Providers>
+      <body className="min-h-full overflow-x-hidden font-body text-cream">
+        <GlobalBackground />
+        <div className="relative z-10 min-h-full">
+          <Providers>{children}</Providers>
+        </div>
       </body>
     </html>
   );

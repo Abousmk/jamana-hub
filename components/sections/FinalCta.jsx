@@ -5,6 +5,7 @@ import { motion, useReducedMotion } from "framer-motion";
 import { replayViewport, softFadeUp, softStagger, staticFade } from "@/lib/motion";
 import { useLang } from "@/lib/i18n";
 import { images } from "@/lib/images";
+import { IMAGE_QUALITY, IMAGE_SIZES } from "@/lib/imageConfig";
 import SectionEyebrow from "@/components/ui/SectionEyebrow";
 import GoldButton from "@/components/ui/GoldButton";
 import Emblem from "@/components/ui/Emblem";
@@ -20,7 +21,8 @@ export default function FinalCta() {
           src={images.finalCta.src}
           alt={images.finalCta.alt[lang]}
           fill
-          sizes="100vw"
+          quality={IMAGE_QUALITY.fullscreen}
+          sizes={IMAGE_SIZES.full}
           className="object-cover opacity-50"
         />
         <div className="absolute inset-0 bg-green-abyss/82" />

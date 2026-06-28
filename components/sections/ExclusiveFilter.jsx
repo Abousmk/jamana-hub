@@ -4,6 +4,7 @@ import Image from "next/image";
 import { motion, useReducedMotion, useTransform } from "framer-motion";
 import { useLang } from "@/lib/i18n";
 import { images } from "@/lib/images";
+import { IMAGE_QUALITY, IMAGE_SIZES } from "@/lib/imageConfig";
 import SectionEyebrow from "@/components/ui/SectionEyebrow";
 import ScrollPinSection, { PinMobileFallback } from "@/components/ui/ScrollPinSection";
 import { useScrollFade } from "@/lib/scroll";
@@ -112,7 +113,8 @@ export default function ExclusiveFilter() {
               src={images.exclusiveFilter.src}
               alt={images.exclusiveFilter.alt[lang]}
               fill
-              sizes="100vw"
+              quality={IMAGE_QUALITY.fullscreen}
+              sizes={IMAGE_SIZES.full}
               className="object-cover opacity-30"
             />
             <div className="absolute inset-0 bg-green-abyss/86" />

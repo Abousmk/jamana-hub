@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import ChromaCard from "@/components/ui/ChromaCard";
 import { useChromaEnabled } from "@/lib/useChromaEnabled";
+import { IMAGE_QUALITY, IMAGE_SIZES } from "@/lib/imageConfig";
 import "./MagicBento.css";
 
 const DEFAULT_CARD_COLOR = "#0D251D";
@@ -17,7 +18,8 @@ function CardBackground({ image, imageAlt, variant }) {
         src={image}
         alt={imageAlt ?? ""}
         fill
-        sizes="(max-width: 768px) 100vw, 50vw"
+        quality={IMAGE_QUALITY.card}
+        sizes={IMAGE_SIZES.bento}
         className="object-cover"
       />
       <div

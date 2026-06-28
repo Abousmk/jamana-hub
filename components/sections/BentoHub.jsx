@@ -2,14 +2,17 @@
 
 import Image from "next/image";
 import { useMemo } from "react";
-import { motion, useReducedMotion } from "framer-motion";
-import { EASE, fadeUp, staticFade } from "@/lib/motion";
+import { motion } from "framer-motion";
+import { EASE, sectionFadeUp, staticFade } from "@/lib/motion";
 import { useLang } from "@/lib/i18n";
 import { images } from "@/lib/images";
+import { IMAGE_QUALITY, IMAGE_SIZES } from "@/lib/imageConfig";
 import { useChromaEnabled } from "@/lib/useChromaEnabled";
 import { useTally } from "@/components/TallyModal";
+import { useMotionActive } from "@/lib/useMotionActive";
 import SectionEyebrow from "@/components/ui/SectionEyebrow";
 import GoldButton from "@/components/ui/GoldButton";
+import WeavePattern from "@/components/ui/WeavePattern";
 import MagicBento from "@/components/ui/MagicBento";
 import ChromaSection from "@/components/ui/ChromaSection";
 import StatsGrid from "@/components/sections/StatsGrid";
@@ -21,18 +24,37 @@ const SECTION_GRIDS = {
   ecosysteme: "card-grid--ecosysteme",
 };
 
+const HUB_HEADER_CLASS = "text-left";
+
 const SECTION_TITLE_CLASS =
-  "mt-3 font-display text-[clamp(1.75rem,4vw,2.5rem)] leading-tight text-cream";
+  "title-display text-balance mt-3 font-display text-[clamp(1.65rem,4.5vw,2.5rem)] leading-tight text-cream";
 const SECTION_SUBTITLE_CLASS =
-  "mt-3 font-body text-[clamp(1rem,2.2vw,1.25rem)] leading-relaxed text-cream/70";
+  "text-pretty mt-3 font-body text-[clamp(1rem,2.2vw,1.25rem)] leading-relaxed text-cream/70";
 
 function HubSectionHeader({ eyebrow, title, subtitle, className = "" }) {
   return (
-    <header className={className}>
+    <header className={`${HUB_HEADER_CLASS} ${className}`.trim()}>
       <SectionEyebrow>{eyebrow}</SectionEyebrow>
       {title ? <h2 className={SECTION_TITLE_CLASS}>{title}</h2> : null}
       {subtitle ? <h3 className={SECTION_SUBTITLE_CLASS}>{subtitle}</h3> : null}
     </header>
+  );
+}
+
+function HubSectionReveal({ children, className = "" }) {
+  const { disableMotion } = useMotionActive();
+
+  return (
+    <motion.div
+      variants={disableMotion ? staticFade : sectionFadeUp}
+      initial="hidden"
+      whileInView="show"
+      viewport={{ once: true, margin: "-5% 0px" }}
+      transition={disableMotion ? undefined : { duration: 0.7, ease: EASE }}
+      className={className}
+    >
+      {children}
+    </motion.div>
   );
 }
 
@@ -70,12 +92,12 @@ function groupCardsBySection(cards) {
 }
 
 function SelectionBlock() {
-  const { t } = useLang();
+  const { t, lang } = useLang();
   const imageData = images.exclusiveFilter;
   const heading = t.hub.sectionHeadings.selection;
 
   return (
-    <div className="mt-16 md:mt-20">
+    <HubSectionReveal className="mt-12 md:mt-16">
       <HubSectionHeader
         eyebrow={t.hub.sections.selection}
         title={heading.title}
@@ -85,9 +107,10 @@ function SelectionBlock() {
         <div className="pointer-events-none absolute inset-0" aria-hidden="true">
           <Image
             src={imageData.src}
-            alt=""
+            alt={imageData.alt[lang]}
             fill
-            sizes="(max-width: 768px) 100vw, 72rem"
+            quality={IMAGE_QUALITY.section}
+            sizes={IMAGE_SIZES.selection}
             className="object-cover opacity-20"
           />
           <div className="absolute inset-0 bg-gradient-to-br from-green-abyss/95 via-green-deep/90 to-green-abyss/95" />
@@ -109,7 +132,7 @@ function SelectionBlock() {
           </div>
         </div>
       </div>
-    </div>
+    </HubSectionReveal>
   );
 }
 
@@ -122,7 +145,6 @@ function EcosystemHeader() {
       eyebrow={eco.eyebrow}
       title={eco.title}
       subtitle={eco.subtitle}
-      className="max-w-2xl"
     />
   );
 }
@@ -130,7 +152,6 @@ function EcosystemHeader() {
 export default function BentoHub() {
   const { t, lang } = useLang();
   const { open } = useTally();
-  const reducedMotion = useReducedMotion();
   const chromaEnabled = useChromaEnabled();
 
   const cardGroups = useMemo(() => {
@@ -139,35 +160,39 @@ export default function BentoHub() {
   }, [t.bento.cards, lang, open]);
 
   return (
-    <motion.section
+    <section
       id="hub"
-      variants={reducedMotion ? staticFade : fadeUp}
-      initial="hidden"
-      whileInView="show"
-      viewport={{ once: true, margin: "-5% 0px" }}
-      transition={reducedMotion ? undefined : { duration: 0.7, ease: EASE }}
-      className="scroll-mt-20 bg-gradient-to-b from-green-deep via-green-deep to-green-abyss px-5 pt-10 pb-16 md:px-8 md:pt-12 md:pb-20"
+      className="relative scroll-mt-20 w-full px-4 pt-4 pb-14 sm:px-6 md:pt-6 md:pb-16 lg:px-8"
     >
-      <div className="mx-auto max-w-6xl">
-        <HubSectionHeader
-          eyebrow={t.bento.eyebrow}
-          title={t.bento.title}
-          subtitle={t.bento.subtitle}
-          className="mx-auto max-w-2xl text-center"
-        />
+      <div
+        className="pointer-events-none absolute inset-0 bg-gradient-to-b from-green-deep/78 via-green-deep/68 to-green-abyss/78"
+        aria-hidden="true"
+      />
+      <WeavePattern opacity={0.08} className="z-[1]" />
+
+      <div className="relative z-10 mx-auto w-full max-w-[1400px]">
+        <HubSectionReveal>
+          <HubSectionHeader
+            eyebrow={t.bento.eyebrow}
+            title={t.bento.title}
+            subtitle={t.bento.subtitle}
+          />
+        </HubSectionReveal>
 
         {SECTION_ORDER.map((sectionKey) => {
           if (sectionKey === "realite") {
             const heading = t.hub.sectionHeadings.realite;
             return (
-              <div key="realite" className="mt-16 md:mt-20">
+              <HubSectionReveal key="realite" className="mt-12 md:mt-16">
                 <HubSectionHeader
                   eyebrow={t.hub.sections.realite}
                   title={heading.title}
                   subtitle={heading.subtitle}
                 />
-                <StatsGrid />
-              </div>
+                <div className="mt-6">
+                  <StatsGrid />
+                </div>
+              </HubSectionReveal>
             );
           }
 
@@ -183,7 +208,10 @@ export default function BentoHub() {
             chromaEnabled && (sectionKey === "manifeste" || sectionKey === "ecosysteme");
 
           return (
-            <div key={sectionKey} className="mt-10 md:mt-12">
+            <HubSectionReveal
+              key={sectionKey}
+              className={sectionKey === "manifeste" ? "mt-10 md:mt-12" : "mt-10 md:mt-12"}
+            >
               {sectionKey === "ecosysteme" ? (
                 <EcosystemHeader />
               ) : (
@@ -193,10 +221,8 @@ export default function BentoHub() {
                   subtitle={heading?.subtitle}
                 />
               )}
-              <div
-                className={`flex justify-center ${sectionKey === "manifeste" ? "mt-4 md:mt-5" : "mt-6"}`}
-              >
-                <ChromaSection enabled={useChromaSection} className="w-full max-w-[72rem]">
+              <div className={sectionKey === "manifeste" ? "mt-4 md:mt-5" : "mt-6"}>
+                <ChromaSection enabled={useChromaSection} className="w-full">
                   <MagicBento
                     cards={cards}
                     textAutoHide
@@ -204,10 +230,10 @@ export default function BentoHub() {
                   />
                 </ChromaSection>
               </div>
-            </div>
+            </HubSectionReveal>
           );
         })}
       </div>
-    </motion.section>
+    </section>
   );
 }

@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { motion, useTransform } from "framer-motion";
 import { useSectionScroll, useParallaxY } from "@/lib/scroll";
+import { IMAGE_QUALITY, IMAGE_SIZES } from "@/lib/imageConfig";
 
 export function SectionImage({
   src,
@@ -19,7 +20,8 @@ export function SectionImage({
         alt={alt}
         fill
         priority={priority}
-        sizes="(max-width: 768px) 100vw, 50vw"
+        quality={IMAGE_QUALITY.section}
+        sizes={IMAGE_SIZES.section}
         className={imageClassName}
       />
       <div
@@ -45,7 +47,14 @@ export function ParallaxImageBand({
   return (
     <div ref={ref} className={`relative overflow-hidden ${heightClassName}`}>
       <motion.div className="absolute inset-0" style={rm ? {} : { y, opacity }}>
-        <Image src={src} alt={alt} fill sizes="100vw" className="object-cover" />
+        <Image
+          src={src}
+          alt={alt}
+          fill
+          quality={IMAGE_QUALITY.fullscreen}
+          sizes={IMAGE_SIZES.full}
+          className="object-cover"
+        />
       </motion.div>
       <div
         className={`pointer-events-none absolute inset-0 ${overlayClassName}`}
@@ -74,7 +83,14 @@ export function ScrollParallaxBackground({ src, alt, progress, overlayClassName 
       aria-hidden="true"
     >
       <motion.div className="absolute inset-[-10%]" style={{ y }}>
-        <Image src={src} alt={alt} fill sizes="100vw" className="object-cover" />
+        <Image
+          src={src}
+          alt={alt}
+          fill
+          quality={IMAGE_QUALITY.fullscreen}
+          sizes={IMAGE_SIZES.full}
+          className="object-cover"
+        />
       </motion.div>
       <div className={`absolute inset-0 ${overlayClassName}`} />
     </motion.div>

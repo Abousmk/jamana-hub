@@ -1,14 +1,11 @@
 "use client";
 
 import Image from "next/image";
-import {
-  motion,
-  useReducedMotion,
-  useScroll,
-  useTransform,
-} from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import { emblemReveal } from "@/lib/motion";
+import { useMotionActive } from "@/lib/useMotionActive";
+import { EMBLEM_SRC, IMAGE_QUALITY } from "@/lib/imageConfig";
 
 const staticReveal = {
   hidden: { opacity: 1, scale: 1 },
@@ -17,7 +14,7 @@ const staticReveal = {
 
 function WatermarkParallax({ className = "" }) {
   const ref = useRef(null);
-  const reducedMotion = useReducedMotion();
+  const { motionActive } = useMotionActive();
 
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -33,14 +30,16 @@ function WatermarkParallax({ className = "" }) {
       aria-hidden="true"
     >
       <motion.div
-        style={reducedMotion ? undefined : { y }}
-        className="will-change-transform"
+        style={motionActive ? { y } : undefined}
+        className={motionActive ? "will-change-transform" : undefined}
       >
         <Image
-          src="/Jamana_embleme_seul_transparent.png"
+          src={EMBLEM_SRC}
           alt=""
           width={700}
           height={700}
+          quality={IMAGE_QUALITY.emblem}
+          sizes="700px"
           className="h-auto w-[min(85vw,700px)] opacity-[0.07]"
         />
       </motion.div>
@@ -50,7 +49,7 @@ function WatermarkParallax({ className = "" }) {
 
 function HeroEmblem() {
   const sectionRef = useRef(null);
-  const reducedMotion = useReducedMotion();
+  const { disableMotion, motionActive } = useMotionActive();
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -62,19 +61,21 @@ function HeroEmblem() {
   return (
     <div ref={sectionRef} className="relative w-[110px] md:w-[160px]">
       <motion.div
-        variants={reducedMotion ? staticReveal : emblemReveal}
-        initial="hidden"
+        variants={disableMotion ? staticReveal : emblemReveal}
+        initial={disableMotion ? "show" : "hidden"}
         animate="show"
-        style={reducedMotion ? undefined : { y: parallaxY }}
-        className="will-change-transform"
+        style={motionActive ? { y: parallaxY } : undefined}
+        className={motionActive ? "will-change-transform" : undefined}
       >
         <Image
-          src="/Jamana_embleme_seul_transparent.png"
+          src={EMBLEM_SRC}
           alt="Emblème Jamana Hub"
           width={160}
           height={160}
-          className="h-auto w-full"
           priority
+          quality={IMAGE_QUALITY.emblem}
+          sizes="(max-width: 768px) 110px, 160px"
+          className="h-auto w-full"
         />
       </motion.div>
     </div>

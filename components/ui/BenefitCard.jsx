@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { motion, useReducedMotion } from "framer-motion";
 import { replayViewport, softFadeUp } from "@/lib/motion";
+import { IMAGE_QUALITY, IMAGE_SIZES } from "@/lib/imageConfig";
 
 const staticFade = { hidden: { opacity: 1, y: 0 }, show: { opacity: 1, y: 0 } };
 
@@ -23,7 +24,8 @@ export default function BenefitCard({ title, description, index, imageSrc, image
             src={imageSrc}
             alt={imageAlt}
             fill
-            sizes="(max-width: 768px) 100vw, 33vw"
+            quality={IMAGE_QUALITY.card}
+            sizes={IMAGE_SIZES.card}
             className="object-cover opacity-80 transition-opacity duration-500 group-hover:opacity-100"
           />
           <div

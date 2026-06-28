@@ -1,0 +1,115 @@
+"use client";
+
+import { useCallback, useEffect, useRef, useState } from "react";
+import { motion } from "framer-motion";
+import { useMotionActive } from "@/lib/useMotionActive";
+
+const JAMANA_SIZE = "clamp(3.4rem, 14vw, 7.8rem)";
+const HUB_SIZE = "clamp(7rem, 30vw, 17rem)";
+const STROKE = "1px rgba(200, 169, 81, 0.5)";
+const STATIC_FILL = "rgba(200, 169, 81, 0.5)";
+const GOLD = "#C8A951";
+
+const jamanaBaseClass =
+  "pointer-events-none absolute left-1/2 top-1/2 z-[3] -translate-x-1/2 -translate-y-1/2 select-none font-display text-[length:var(--sig-size)] font-bold leading-none tracking-tight";
+
+export default function FooterSignature() {
+  const containerRef = useRef(null);
+  const [mouseX, setMouseX] = useState(null);
+  const [isPointerFine, setIsPointerFine] = useState(false);
+  const { motionActive, disableMotion, mounted } = useMotionActive();
+
+  useEffect(() => {
+    if (!mounted) return undefined;
+
+    const mq = window.matchMedia("(pointer: fine) and (min-width: 768px)");
+    const update = () => setIsPointerFine(mq.matches);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, [mounted]);
+
+  const useDesktopHover = mounted && isPointerFine && !disableMotion;
+  const useMobileReveal = mounted && !isPointerFine && motionActive;
+  const useStaticFill = disableMotion || (!useDesktopHover && !useMobileReveal && mounted);
+
+  const handleMouseMove = useCallback(
+    (e) => {
+      if (!containerRef.current || !useDesktopHover) return;
+      const rect = containerRef.current.getBoundingClientRect();
+      setMouseX(e.clientX - rect.left);
+    },
+    [useDesktopHover],
+  );
+
+  const handleMouseLeave = useCallback(() => {
+    setMouseX(null);
+  }, []);
+
+  let fillStyle = { color: "transparent" };
+
+  if (useStaticFill) {
+    fillStyle = { color: STATIC_FILL };
+  } else if (useDesktopHover && mouseX !== null) {
+    const rect = containerRef.current?.getBoundingClientRect();
+    const width = rect?.width ?? 400;
+    const centerX = width / 2;
+    const proximity = 1 - Math.min(Math.abs(mouseX - centerX) / (width / 2), 1);
+    const opacity = 0.15 + proximity * 0.85;
+
+    fillStyle = {
+      color: GOLD,
+      opacity,
+      WebkitMaskImage: `radial-gradient(circle 150px at ${mouseX}px 50%, black 0%, transparent 100%)`,
+      maskImage: `radial-gradient(circle 150px at ${mouseX}px 50%, black 0%, transparent 100%)`,
+    };
+  }
+
+  return (
+    <div
+      ref={containerRef}
+      className="relative min-h-[200px] overflow-hidden md:min-h-[260px] lg:min-h-[300px]"
+      onMouseMove={useDesktopHover ? handleMouseMove : undefined}
+      onMouseLeave={useDesktopHover ? handleMouseLeave : undefined}
+      aria-hidden="true"
+    >
+      <div
+        className="pointer-events-none absolute left-1/2 top-1/2 z-[1] -translate-x-1/2 -translate-y-1/2 select-none font-display text-[length:var(--hub-size)] font-bold leading-none tracking-tight"
+        style={{ "--hub-size": HUB_SIZE, color: "rgba(200, 169, 81, 0.09)" }}
+      >
+        HUB
+      </div>
+
+      <div
+        className={jamanaBaseClass}
+        style={{
+          "--sig-size": JAMANA_SIZE,
+          WebkitTextStroke: STROKE,
+          color: "transparent",
+        }}
+      >
+        JAMANA
+      </div>
+
+      {useMobileReveal ? (
+        <motion.div
+          className={jamanaBaseClass}
+          style={{ "--sig-size": JAMANA_SIZE, color: STATIC_FILL }}
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true, amount: 0.35 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+        >
+          JAMANA
+        </motion.div>
+      ) : (
+        <div
+          className={`${jamanaBaseClass} transition-opacity duration-300`}
+          style={{ "--sig-size": JAMANA_SIZE, ...fillStyle }}
+        >
+          JAMANA
+        </div>
+      )}
+    </div>
+  );
+}

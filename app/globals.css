@@ -56,3 +56,23 @@ body {
     padding-bottom: 5rem;
   }
 }
+
+.section-container {
+  width: 100%;
+  max-width: 1400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.text-balance {
+  text-wrap: balance;
+}
+
+.text-pretty {
+  text-wrap: pretty;
+}
+
+.title-display {
+  word-break: normal;
+  overflow-wrap: normal;
+}
