@@ -20,12 +20,12 @@ export default function Footer() {
   const links = t.footer.links;
 
   return (
-    <footer className="relative w-full overflow-hidden border-t border-green-line bg-green-abyss">
+    <footer className="relative w-full overflow-hidden bg-green-abyss">
       <WeavePattern opacity={0.075} />
 
-      <div className="relative z-[3] py-12 md:py-14">
-        <div className="mx-4 sm:mx-6 mx-auto max-w-[1400px] rounded-2xl border border-green-line bg-green-deep/90 p-6 sm:p-8 md:p-10">
-          <div className="flex w-full flex-col items-center gap-10 text-center md:flex-row md:items-start md:justify-between md:gap-8 md:text-left">
+      <div className="relative z-10 mx-auto w-full max-w-[1400px] px-4 py-8 sm:px-6 md:py-12 lg:px-8">
+        <div className="w-full overflow-hidden rounded-2xl border border-green-line bg-green-deep/90">
+          <div className="flex w-full flex-col items-center gap-10 px-6 py-10 text-center md:flex-row md:items-start md:justify-between md:gap-8 md:px-10 md:py-12 md:text-left">
             <div className="flex max-w-xs flex-col items-center md:items-start">
               <Link
                 href="/"
@@ -100,16 +100,14 @@ export default function Footer() {
               <LanguageToggle />
             </div>
           </div>
-        </div>
-      </div>
 
-      <FooterSignature />
+          <FooterSignature />
 
-      <div className="relative z-[3] px-4 pb-10 sm:px-6 lg:px-8">
-        <div className="mx-auto w-full max-w-[1400px] border-t border-gold/25 pt-6 text-center">
-          <p className="font-body text-xs text-cream/35">
-            © 2026 Jamana Hub. {t.footer.rights}
-          </p>
+          <div className="border-t border-green-line/60 px-6 py-6 text-center">
+            <p className="font-body text-xs text-cream/35">
+              © 2026 Jamana Hub. {t.footer.rights}
+            </p>
+          </div>
         </div>
       </div>
     </footer>
