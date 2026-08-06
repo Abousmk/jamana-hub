@@ -71,7 +71,7 @@ export default function WeavePattern({
 
   return (
     <div
-      className={`pointer-events-none absolute inset-0 h-full w-full ${className}`}
+      className={`pointer-events-none absolute inset-0 h-full w-full overflow-hidden ${className}`}
       aria-hidden="true"
     >
       <div

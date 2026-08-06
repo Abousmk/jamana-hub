@@ -163,7 +163,7 @@ export default function BentoHub() {
   return (
     <section
       id="hub"
-      className="relative scroll-mt-20 w-full px-4 pt-4 pb-14 sm:px-6 md:pt-6 md:pb-16 lg:px-8"
+      className="relative scroll-mt-20 w-full overflow-x-hidden px-4 pt-4 pb-14 sm:px-6 md:pt-6 md:pb-16 lg:px-8"
     >
       <div
         className="pointer-events-none absolute inset-0 bg-gradient-to-b from-green-deep/78 via-green-deep/68 to-green-abyss/78"
