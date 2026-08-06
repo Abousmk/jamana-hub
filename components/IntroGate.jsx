@@ -226,10 +226,30 @@ function AmbienceToggle({ disabled }) {
 export default function IntroGate() {
   const { setLang } = useLang();
   const { reducedMotion, mounted, motionKey } = useMotionActive();
-  const [visible, setVisible] = useState(true);
+  const [checked, setChecked] = useState(false);
+  const [visible, setVisible] = useState(false);
   const [exiting, setExiting] = useState(false);
   const [isDesktop, setIsDesktop] = useState(false);
   const [audioAvailable, setAudioAvailable] = useState(false);
+
+  useEffect(() => {
+    const saved = localStorage.getItem("jamana-lang");
+    if (saved === "fr" || saved === "en") {
+      setVisible(false);
+    } else {
+      setVisible(true);
+    }
+    setChecked(true);
+  }, []);
+
+  useEffect(() => {
+    if (!visible) return undefined;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = prev;
+    };
+  }, [visible]);
 
   useEffect(() => {
     const mq = window.matchMedia("(min-width: 768px)");
@@ -255,7 +275,7 @@ export default function IntroGate() {
     [setLang],
   );
 
-  if (!mounted || !visible) return null;
+  if (!checked || !mounted || !visible) return null;
 
   const showGlow = !reducedMotion && isDesktop;
 
