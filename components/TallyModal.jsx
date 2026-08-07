@@ -4,8 +4,7 @@ import { createContext, useCallback, useContext, useEffect, useState } from "rea
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { EASE } from "@/lib/motion";
 import { useLang } from "@/lib/i18n";
-
-const TALLY_URL = "https://tally.so/r/442AOX?transparentBackground=1";
+import { getTallyEmbedSrc } from "@/lib/tally";
 
 const TallyContext = createContext(null);
 
@@ -46,8 +45,9 @@ export function useTally() {
 
 function TallyModalOverlay() {
   const { isOpen, close } = useTally();
-  const { t } = useLang();
+  const { t, lang } = useLang();
   const reducedMotion = useReducedMotion();
+  const embedSrc = getTallyEmbedSrc(lang, { dynamicHeight: false });
 
   return (
     <AnimatePresence>
@@ -87,7 +87,8 @@ function TallyModalOverlay() {
               </button>
             </div>
             <iframe
-              src={TALLY_URL}
+              key={lang}
+              src={embedSrc}
               title={t.tally.title}
               className="min-h-0 flex-1 w-full border-0"
               loading="lazy"

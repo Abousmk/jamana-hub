@@ -3,11 +3,7 @@
 import { useEffect, useState } from "react";
 import Script from "next/script";
 import { useLang } from "@/lib/i18n";
-
-const EMBED_URLS = {
-  fr: "https://tally.so/embed/442AOX?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1",
-  en: "https://tally.so/embed/ZjAgRa?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1",
-};
+import { getTallyEmbedSrc } from "@/lib/tally";
 
 function loadTallyEmbeds() {
   if (typeof window === "undefined") return;
@@ -33,7 +29,7 @@ export default function TallyEmbed({ title }) {
     loadTallyEmbeds();
   }, [mounted, lang]);
 
-  const embedSrc = EMBED_URLS[lang] ?? EMBED_URLS.fr;
+  const embedSrc = getTallyEmbedSrc(lang);
 
   return (
     <>
