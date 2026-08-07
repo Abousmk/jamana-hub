@@ -4,8 +4,7 @@ import Link from "next/link";
 import { useLang } from "@/lib/i18n";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-
-const TALLY_URL = "https://tally.so/r/442AOX?transparentBackground=1";
+import TallyEmbed from "@/components/TallyEmbed";
 
 export default function PostulerPage() {
   const { t } = useLang();
@@ -18,13 +17,8 @@ export default function PostulerPage() {
           <h1 className="font-display text-3xl tracking-[-0.02em] text-cream md:text-4xl">
             {t.postuler.title}
           </h1>
-          <div className="mt-8 w-full max-w-2xl flex-1 overflow-hidden rounded-2xl border border-green-line bg-green-deep">
-            <iframe
-              src={TALLY_URL}
-              title={t.postuler.title}
-              className="h-[calc(100vh-12rem)] min-h-[500px] w-full border-0"
-              loading="lazy"
-            />
+          <div className="mt-8 w-full max-w-2xl rounded-2xl border border-green-line bg-green-deep px-3 py-4 sm:px-5 sm:py-6">
+            <TallyEmbed title={t.postuler.title} />
           </div>
           <Link
             href="/"
