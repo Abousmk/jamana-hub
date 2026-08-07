@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
   AnimatePresence,
   motion,
@@ -158,71 +158,6 @@ function MouseGlow({ active }) {
   );
 }
 
-function AmbienceToggle({ disabled }) {
-  const audioRef = useRef(null);
-  const [playing, setPlaying] = useState(false);
-
-  const toggle = useCallback(() => {
-    if (disabled || !audioRef.current) return;
-    if (playing) {
-      audioRef.current.pause();
-      setPlaying(false);
-    } else {
-      audioRef.current.volume = 0.25;
-      audioRef.current.play().then(() => setPlaying(true)).catch(() => {});
-    }
-  }, [disabled, playing]);
-
-  useEffect(() => {
-    return () => {
-      audioRef.current?.pause();
-    };
-  }, []);
-
-  return (
-    <>
-      {!disabled && (
-        <audio ref={audioRef} src="/intro/ambience.mp3" preload="none" loop />
-      )}
-      <button
-        type="button"
-        onClick={toggle}
-        disabled={disabled}
-        aria-label={playing ? "Couper l'ambiance sonore" : "Activer l'ambiance sonore"}
-        aria-pressed={playing}
-        className={`absolute right-4 top-4 z-20 flex h-10 w-10 items-center justify-center rounded-full border border-gold/30 bg-green-abyss/40 backdrop-blur-sm transition-opacity duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-green-abyss md:right-6 md:top-6 ${
-          disabled
-            ? "cursor-default text-cream/25 opacity-50"
-            : "text-gold/70 hover:border-gold/60 hover:text-gold"
-        }`}
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.5"
-          className="h-5 w-5"
-          aria-hidden="true"
-        >
-          {playing ? (
-            <>
-              <path d="M9 18V6l6 4-6 4z" />
-              <path d="M16 6v12" />
-            </>
-          ) : (
-            <>
-              <path d="M9 18V6l6 4-6 4z" />
-              <path d="M18.5 8.5a5 5 0 0 1 0 7" />
-              <path d="M21 6a9 9 0 0 1 0 12" />
-            </>
-          )}
-        </svg>
-      </button>
-    </>
-  );
-}
-
 export default function IntroGate() {
   const { setLang } = useLang();
   const { reducedMotion, mounted, motionKey } = useMotionActive();
@@ -230,7 +165,6 @@ export default function IntroGate() {
   const [visible, setVisible] = useState(false);
   const [exiting, setExiting] = useState(false);
   const [isDesktop, setIsDesktop] = useState(false);
-  const [audioAvailable, setAudioAvailable] = useState(false);
 
   useEffect(() => {
     const saved = localStorage.getItem("jamana-lang");
@@ -257,12 +191,6 @@ export default function IntroGate() {
     update();
     mq.addEventListener("change", update);
     return () => mq.removeEventListener("change", update);
-  }, []);
-
-  useEffect(() => {
-    fetch("/intro/ambience.mp3", { method: "HEAD" })
-      .then((res) => setAudioAvailable(res.ok))
-      .catch(() => setAudioAvailable(false));
   }, []);
 
   const complete = useCallback(
@@ -294,8 +222,6 @@ export default function IntroGate() {
     >
       <IntroSlideshow reducedMotion={reducedMotion} />
       <MouseGlow active={showGlow} />
-
-      <AmbienceToggle disabled={!audioAvailable} />
 
       <motion.div
         className="relative z-10 flex max-w-lg flex-col items-center px-6 py-10 text-center"
