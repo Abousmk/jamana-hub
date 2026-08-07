@@ -168,13 +168,20 @@ export default function IntroGate() {
 
   useEffect(() => {
     const saved = localStorage.getItem("jamana-lang");
+    const path = window.location.pathname;
+    const isEnRoute = path === "/en" || path.startsWith("/en/");
+
     if (saved === "fr" || saved === "en") {
+      setVisible(false);
+    } else if (isEnRoute) {
+      // Explicit EN URL counts as language choice — skip splash, persist EN.
+      setLang("en");
       setVisible(false);
     } else {
       setVisible(true);
     }
     setChecked(true);
-  }, []);
+  }, [setLang]);
 
   useEffect(() => {
     if (!visible) return undefined;

@@ -5,6 +5,7 @@ import { useMemo } from "react";
 import { motion } from "framer-motion";
 import { EASE, sectionFadeUp, staticFade } from "@/lib/motion";
 import { useLang } from "@/lib/i18n";
+import { withLocale } from "@/lib/locale";
 import { images } from "@/lib/images";
 import { IMAGE_QUALITY, IMAGE_SIZES } from "@/lib/imageConfig";
 import { useChromaEnabled } from "@/lib/useChromaEnabled";
@@ -68,6 +69,7 @@ function enrichCard(card, lang, open) {
       image: imageData.src,
       imageAlt: imageData.alt[lang],
     }),
+    ...(card.href && { href: withLocale(card.href, lang) }),
   };
 
   if (card.action === "tally") {

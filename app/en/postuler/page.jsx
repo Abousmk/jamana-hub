@@ -2,12 +2,12 @@ import PostulerView from "@/components/pages/PostulerView";
 import { buildPageMetadata, SEO } from "@/lib/seo";
 
 export const metadata = buildPageMetadata({
-  locale: "fr",
+  locale: "en",
   path: "/postuler",
-  title: SEO.fr.postulerTitle,
-  description: SEO.fr.postulerDescription,
+  title: SEO.en.postulerTitle,
+  description: SEO.en.postulerDescription,
 });
 
-export default function PostulerPage() {
+export default function EnPostulerPage() {
   return <PostulerView />;
 }

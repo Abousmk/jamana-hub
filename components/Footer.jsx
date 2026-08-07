@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useLang } from "@/lib/i18n";
 import { NAV_LINKS } from "@/lib/navLinks";
+import { withLocale } from "@/lib/locale";
 import { ACTIVE_SOCIAL_LINKS } from "@/lib/social";
 import { useTally } from "@/components/TallyModal";
 import LanguageToggle from "@/components/LanguageToggle";
@@ -15,7 +16,7 @@ const linkClass =
   "font-body text-sm text-cream/55 transition-[transform,color] duration-300 hover:translate-x-[3px] hover:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold";
 
 export default function Footer() {
-  const { t } = useLang();
+  const { t, lang } = useLang();
   const { open } = useTally();
   const links = t.footer.links;
 
@@ -28,7 +29,7 @@ export default function Footer() {
           <div className="flex w-full flex-col items-center gap-10 px-6 py-10 text-center md:flex-row md:items-start md:justify-between md:gap-8 md:px-10 md:py-12 md:text-left">
             <div className="flex max-w-xs flex-col items-center md:items-start">
               <Link
-                href="/"
+                href={withLocale("/", lang)}
                 className="inline-block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-green-deep"
               >
                 <Image
@@ -53,7 +54,11 @@ export default function Footer() {
                 </p>
                 <nav className="mt-3 flex flex-col items-center gap-2.5 md:items-start">
                   {NAV_LINKS.map(({ key, href }) => (
-                    <Link key={key} href={href} className={linkClass}>
+                    <Link
+                      key={key}
+                      href={withLocale(href, lang)}
+                      className={linkClass}
+                    >
                       {links[key]}
                     </Link>
                   ))}

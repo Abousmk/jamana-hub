@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useLang } from "@/lib/i18n";
+import { withLocale } from "@/lib/locale";
 import { useMotionActive } from "@/lib/useMotionActive";
 import { ACTIVE_SOCIAL_LINKS } from "@/lib/social";
 import { useTally } from "@/components/TallyModal";
@@ -124,21 +125,21 @@ export default function CircleMenu({ className, onOpenChange }) {
       {
         key: "accueil",
         label: t.nav.accueil,
-        href: "/",
+        href: withLocale("/", lang),
         icon: Home,
         external: false,
       },
       {
         key: "hub",
         label: t.nav.hub,
-        href: "/#hub",
+        href: withLocale("/#hub", lang),
         icon: LayoutGrid,
         external: false,
       },
       {
         key: "media",
         label: t.nav.media,
-        href: "/media",
+        href: withLocale("/media", lang),
         icon: Play,
         external: false,
       },
@@ -151,7 +152,7 @@ export default function CircleMenu({ className, onOpenChange }) {
       },
       ...socialItems,
     ],
-    [t.nav, socialItems, openTally],
+    [t.nav, socialItems, openTally, lang],
   );
 
   const close = useCallback(() => setOpen(false), []);
