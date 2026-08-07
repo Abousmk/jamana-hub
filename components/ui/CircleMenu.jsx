@@ -4,11 +4,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { createPortal } from "react-dom";
 import Image from "next/image";
 import Link from "next/link";
-import {
-  AnimatePresence,
-  motion,
-  useReducedMotion,
-} from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import {
   Home,
   LayoutGrid,
@@ -19,6 +15,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useLang } from "@/lib/i18n";
+import { useMotionActive } from "@/lib/useMotionActive";
 import { ACTIVE_SOCIAL_LINKS } from "@/lib/social";
 import { useTally } from "@/components/TallyModal";
 
@@ -105,9 +102,9 @@ function LanguageRow({ lang, setLang }) {
 export default function CircleMenu({ className, onOpenChange }) {
   const { lang, setLang, t } = useLang();
   const { open: openTally } = useTally();
-  const reducedMotion = useReducedMotion();
+  // SSR-safe: false until mount so trigger attrs match server HTML
+  const { mounted, reducedMotion } = useMotionActive();
   const [open, setOpen] = useState(false);
-  const [mounted, setMounted] = useState(false);
   const { containerSize, radius } = useMenuDimensions();
 
   const socialItems = useMemo(
@@ -158,10 +155,6 @@ export default function CircleMenu({ className, onOpenChange }) {
   );
 
   const close = useCallback(() => setOpen(false), []);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   useEffect(() => {
     onOpenChange?.(open);
@@ -334,7 +327,9 @@ export default function CircleMenu({ className, onOpenChange }) {
           aria-label={open ? "Fermer le menu" : "Ouvrir le menu"}
           onClick={() => setOpen((v) => !v)}
           className="relative flex h-11 w-11 items-center justify-center rounded-full bg-gold text-green-abyss shadow-[0_0_20px_rgba(200,169,81,0.35)] transition-[transform,opacity] duration-300 hover:shadow-[0_0_28px_rgba(200,169,81,0.55)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-green-abyss active:scale-95"
-          whileTap={reducedMotion ? undefined : { scale: 0.94 }}
+          whileTap={
+            mounted && !reducedMotion ? { scale: 0.94 } : undefined
+          }
         >
           {open ? (
             <X className="h-5 w-5" strokeWidth={2.25} aria-hidden="true" />
