@@ -114,7 +114,7 @@ export default function Footer() {
               aria-label={t.footer.legal.navLabel}
             >
               <Link
-                href="/mentions-legales"
+                href={withLocale("/mentions-legales", lang)}
                 className="font-body text-xs text-cream/30 transition-colors duration-300 hover:text-cream/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
               >
                 {t.footer.legal.notice}
@@ -123,7 +123,7 @@ export default function Footer() {
                 ·
               </span>
               <Link
-                href="/confidentialite"
+                href={withLocale("/confidentialite", lang)}
                 className="font-body text-xs text-cream/30 transition-colors duration-300 hover:text-cream/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
               >
                 {t.footer.legal.privacy}

@@ -2,12 +2,12 @@ import MentionsLegalesView from "@/components/pages/MentionsLegalesView";
 import { buildPageMetadata, SEO } from "@/lib/seo";
 
 export const metadata = buildPageMetadata({
-  locale: "fr",
+  locale: "en",
   path: "/mentions-legales",
-  title: SEO.fr.legalTitle,
-  description: SEO.fr.legalDescription,
+  title: SEO.en.legalTitle,
+  description: SEO.en.legalDescription,
 });
 
-export default function MentionsLegalesPage() {
+export default function EnMentionsLegalesPage() {
   return <MentionsLegalesView />;
 }

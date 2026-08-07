@@ -4,6 +4,8 @@ import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import WeavePattern from "@/components/ui/WeavePattern";
+import { useLang } from "@/lib/i18n";
+import { withLocale } from "@/lib/locale";
 
 function LegalSection({ section }) {
   return (
@@ -37,6 +39,8 @@ function LegalSection({ section }) {
 }
 
 export default function LegalDocument({ doc }) {
+  const { lang } = useLang();
+
   return (
     <>
       <Navbar />
@@ -61,7 +65,7 @@ export default function LegalDocument({ doc }) {
           </div>
 
           <Link
-            href="/"
+            href={withLocale("/", lang)}
             className="mt-12 inline-block font-util text-xs uppercase tracking-[0.14em] text-gold transition-opacity duration-300 hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-green-abyss"
           >
             ← {doc.back}

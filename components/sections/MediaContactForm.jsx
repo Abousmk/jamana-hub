@@ -5,6 +5,7 @@ import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
 import { EASE, fadeUp, staticFade } from "@/lib/motion";
 import { useLang } from "@/lib/i18n";
+import { withLocale } from "@/lib/locale";
 
 const inputClass =
   "w-full rounded-lg border border-green-line bg-green-abyss px-4 py-3 font-body text-sm text-cream placeholder:text-cream/35 transition-[border-color,opacity] duration-300 focus-visible:border-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-green-deep";
@@ -17,7 +18,7 @@ function isValidEmail(value) {
 }
 
 export default function MediaContactForm() {
-  const { t } = useLang();
+  const { t, lang } = useLang();
   const reducedMotion = useReducedMotion();
   const c = t.mediaPage.contact;
 
@@ -193,7 +194,7 @@ export default function MediaContactForm() {
           >
             {c.consent.before}
             <Link
-              href="/confidentialite"
+              href={withLocale("/confidentialite", lang)}
               className="text-gold underline decoration-gold/40 underline-offset-2 transition-colors hover:text-gold-light hover:decoration-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
             >
               {c.consent.link}

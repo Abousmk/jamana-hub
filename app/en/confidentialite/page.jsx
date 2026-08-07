@@ -2,12 +2,12 @@ import ConfidentialiteView from "@/components/pages/ConfidentialiteView";
 import { buildPageMetadata, SEO } from "@/lib/seo";
 
 export const metadata = buildPageMetadata({
-  locale: "fr",
+  locale: "en",
   path: "/confidentialite",
-  title: SEO.fr.privacyTitle,
-  description: SEO.fr.privacyDescription,
+  title: SEO.en.privacyTitle,
+  description: SEO.en.privacyDescription,
 });
 
-export default function ConfidentialitePage() {
+export default function EnConfidentialitePage() {
   return <ConfidentialiteView />;
 }
