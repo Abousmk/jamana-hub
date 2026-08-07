@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
 import { EASE, fadeUp, staticFade } from "@/lib/motion";
 import { useLang } from "@/lib/i18n";
@@ -26,6 +27,7 @@ export default function MediaContactForm() {
     type: c.types[0].value,
     message: "",
   });
+  const [consent, setConsent] = useState(false);
   const [status, setStatus] = useState("idle");
   const [errorMsg, setErrorMsg] = useState("");
 
@@ -53,6 +55,11 @@ export default function MediaContactForm() {
       setErrorMsg(c.errors.message);
       return;
     }
+    if (!consent) {
+      setStatus("error");
+      setErrorMsg(c.errors.consent);
+      return;
+    }
 
     setStatus("loading");
 
@@ -74,6 +81,7 @@ export default function MediaContactForm() {
       }
 
       setStatus("success");
+      setConsent(false);
       setForm({ name: "", email: "", type: c.types[0].value, message: "" });
     } catch (err) {
       setStatus("error");
@@ -162,6 +170,36 @@ export default function MediaContactForm() {
             className={`${inputClass} resize-y min-h-[120px]`}
             disabled={status === "loading"}
           />
+        </div>
+
+        <div className="flex items-start gap-3">
+          <input
+            id="contact-consent"
+            name="consent"
+            type="checkbox"
+            checked={consent}
+            onChange={(e) => {
+              setConsent(e.target.checked);
+              if (status !== "idle") setStatus("idle");
+            }}
+            disabled={status === "loading"}
+            className="mt-1 h-4 w-4 shrink-0 rounded border-green-line bg-green-abyss text-gold accent-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-green-deep"
+            required
+            aria-required="true"
+          />
+          <label
+            htmlFor="contact-consent"
+            className="font-body text-sm leading-relaxed text-cream/70"
+          >
+            {c.consent.before}
+            <Link
+              href="/confidentialite"
+              className="text-gold underline decoration-gold/40 underline-offset-2 transition-colors hover:text-gold-light hover:decoration-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
+            >
+              {c.consent.link}
+            </Link>
+            {c.consent.after}
+          </label>
         </div>
 
         {status === "success" ? (

@@ -104,6 +104,26 @@ export default function Footer() {
           <FooterSignature />
 
           <div className="border-t border-green-line/60 px-6 py-6 text-center">
+            <nav
+              className="mb-3 flex flex-wrap items-center justify-center gap-x-4 gap-y-1"
+              aria-label={t.footer.legal.navLabel}
+            >
+              <Link
+                href="/mentions-legales"
+                className="font-body text-xs text-cream/30 transition-colors duration-300 hover:text-cream/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
+              >
+                {t.footer.legal.notice}
+              </Link>
+              <span className="text-cream/20" aria-hidden="true">
+                ·
+              </span>
+              <Link
+                href="/confidentialite"
+                className="font-body text-xs text-cream/30 transition-colors duration-300 hover:text-cream/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
+              >
+                {t.footer.legal.privacy}
+              </Link>
+            </nav>
             <p className="font-body text-xs text-cream/35">
               © 2026 Jamana Hub. {t.footer.rights}
             </p>
