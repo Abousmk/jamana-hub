@@ -68,7 +68,7 @@
   display: inline-flex;
   align-items: center;
   margin-top: 0.75em;
-  font-family: var(--font-util), sans-serif;
+  font-family: var(--font-body), sans-serif;
   font-size: 0.62em;
   font-weight: 600;
   text-transform: uppercase;
@@ -136,7 +136,7 @@
 }
 
 .magic-bento-card__label {
-  font-family: var(--font-util), sans-serif;
+  font-family: var(--font-body), sans-serif;
   font-size: 0.62em;
   font-weight: 500;
   text-transform: uppercase;
@@ -151,7 +151,7 @@
 }
 
 .magic-bento-card__title {
-  font-family: var(--font-display), serif;
+  font-family: var(--font-title), serif;
   font-weight: 400;
   font-size: 1.08em;
   line-height: 1.18;

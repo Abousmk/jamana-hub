@@ -17,9 +17,9 @@ module.exports = {
         "green-line": "rgba(200,169,81,0.18)",
       },
       fontFamily: {
-        display: ["var(--font-display)", "serif"],
+        display: ["var(--font-title)", "serif"],
         body: ["var(--font-body)", "sans-serif"],
-        util: ["var(--font-util)", "sans-serif"],
+        util: ["var(--font-body)", "sans-serif"],
       },
     },
   },

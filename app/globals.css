@@ -10,9 +10,9 @@
   --color-cream: #f5f0e3;
   --color-green-line: rgba(200, 169, 81, 0.18);
 
-  --font-family-display: var(--font-display), serif;
+  --font-family-display: var(--font-title), serif;
   --font-family-body: var(--font-body), sans-serif;
-  --font-family-util: var(--font-util), sans-serif;
+  --font-family-util: var(--font-body), sans-serif;
 }
 
 *,

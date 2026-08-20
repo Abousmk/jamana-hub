@@ -1,26 +1,21 @@
 import { headers } from "next/headers";
-import { Playfair_Display, Lato, Montserrat } from "next/font/google";
+import { Libre_Caslon_Display, Jost } from "next/font/google";
 import GlobalBackground from "@/components/GlobalBackground";
 import Providers from "@/components/Providers";
 import { buildPageMetadata, OG_IMAGE, organizationJsonLd, SEO } from "@/lib/seo";
 import "./globals.css";
 
-const playfair = Playfair_Display({
-  variable: "--font-display",
+const titleFont = Libre_Caslon_Display({
+  variable: "--font-title",
   subsets: ["latin"],
+  weight: "400",
   display: "swap",
 });
 
-const lato = Lato({
+const bodyFont = Jost({
   variable: "--font-body",
   subsets: ["latin"],
-  weight: ["400", "700"],
-  display: "swap",
-});
-
-const montserrat = Montserrat({
-  variable: "--font-util",
-  subsets: ["latin"],
+  weight: ["400", "500", "600"],
   display: "swap",
 });
 
@@ -58,12 +53,10 @@ export default async function RootLayout({ children }) {
   const jsonLd = organizationJsonLd();
 
   return (
-    <html
-      lang={locale}
-      suppressHydrationWarning
-      className={`${playfair.variable} ${lato.variable} ${montserrat.variable} h-full antialiased`}
-    >
-      <body className="min-h-full overflow-x-hidden font-body text-cream">
+    <html lang={locale} suppressHydrationWarning className="h-full antialiased">
+      <body
+        className={`${titleFont.variable} ${bodyFont.variable} min-h-full overflow-x-hidden font-body text-cream`}
+      >
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

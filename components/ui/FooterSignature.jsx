@@ -17,7 +17,7 @@ const jamanaLayerClass =
   "pointer-events-none absolute left-1/2 top-1/2 z-[2] -translate-x-1/2 -translate-y-1/2 select-none font-display text-[length:var(--sig-size)] font-bold leading-none tracking-tight";
 
 const svgTextStyle = {
-  fontFamily: "var(--font-display), serif",
+  fontFamily: "var(--font-title), serif",
   fontWeight: 700,
   fontSize: 88,
 };
