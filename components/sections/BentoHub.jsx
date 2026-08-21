@@ -3,7 +3,12 @@
 import Image from "next/image";
 import { useMemo } from "react";
 import { motion } from "framer-motion";
-import { EASE, sectionFadeUp, staticFade } from "@/lib/motion";
+import {
+  EDITORIAL_EASE,
+  editorialFadeUp,
+  editorialViewport,
+  staticFade,
+} from "@/lib/motion";
 import { useLang } from "@/lib/i18n";
 import { withLocale } from "@/lib/locale";
 import { images } from "@/lib/images";
@@ -16,14 +21,8 @@ import GoldButton from "@/components/ui/GoldButton";
 import WeavePattern from "@/components/ui/WeavePattern";
 import MagicBento from "@/components/ui/MagicBento";
 import ChromaSection from "@/components/ui/ChromaSection";
-import StatsGrid from "@/components/sections/StatsGrid";
-
-const SECTION_ORDER = ["manifeste", "realite", "ecosysteme", "selection"];
-
-const SECTION_GRIDS = {
-  manifeste: "card-grid--manifeste",
-  ecosysteme: "card-grid--ecosysteme",
-};
+import ManifestoList from "@/components/sections/ManifestoList";
+import RealityStats from "@/components/sections/RealityStats";
 
 const HUB_HEADER_CLASS = "text-left";
 
@@ -35,7 +34,7 @@ const SECTION_SUBTITLE_CLASS =
 function HubSectionHeader({ eyebrow, title, subtitle, className = "" }) {
   return (
     <header className={`${HUB_HEADER_CLASS} ${className}`.trim()}>
-      <SectionEyebrow>{eyebrow}</SectionEyebrow>
+      <SectionEyebrow className="tracking-[0.25em]">{eyebrow}</SectionEyebrow>
       {title ? <h2 className={SECTION_TITLE_CLASS}>{title}</h2> : null}
       {subtitle ? <h3 className={SECTION_SUBTITLE_CLASS}>{subtitle}</h3> : null}
     </header>
@@ -48,11 +47,13 @@ function HubSectionReveal({ children, className = "" }) {
   return (
     <motion.div
       key={motionKey}
-      variants={disableMotion ? staticFade : sectionFadeUp}
+      variants={disableMotion ? staticFade : editorialFadeUp}
       initial="hidden"
       whileInView="show"
-      viewport={{ once: true, margin: "-5% 0px" }}
-      transition={disableMotion ? undefined : { duration: 0.7, ease: EASE }}
+      viewport={editorialViewport}
+      transition={
+        disableMotion ? undefined : { duration: 0.8, ease: EDITORIAL_EASE }
+      }
       className={className}
     >
       {children}
@@ -77,21 +78,6 @@ function enrichCard(card, lang, open) {
   }
 
   return enriched;
-}
-
-function groupCardsBySection(cards) {
-  const groups = {
-    manifeste: [],
-    ecosysteme: [],
-  };
-
-  for (const card of cards) {
-    if (groups[card.section]) {
-      groups[card.section].push(card);
-    }
-  }
-
-  return groups;
 }
 
 function SelectionBlock() {
@@ -139,16 +125,11 @@ function SelectionBlock() {
   );
 }
 
-function EcosystemHeader() {
-  const { t } = useLang();
-  const eco = t.hub.ecosystem;
-
+function TwinImageCard({ card }) {
   return (
-    <HubSectionHeader
-      eyebrow={eco.eyebrow}
-      title={eco.title}
-      subtitle={eco.subtitle}
-    />
+    <ChromaSection enabled={false} className="w-full">
+      <MagicBento cards={[card]} textAutoHide={false} gridClassName="card-grid--twins" />
+    </ChromaSection>
   );
 }
 
@@ -157,10 +138,16 @@ export default function BentoHub() {
   const { open } = useTally();
   const chromaEnabled = useChromaEnabled();
 
-  const cardGroups = useMemo(() => {
+  const { aboutCard, batirCard, ecosystemCards } = useMemo(() => {
     const enriched = t.bento.cards.map((card) => enrichCard(card, lang, open));
-    return groupCardsBySection(enriched);
+    return {
+      aboutCard: enriched.find((c) => c.slot === "about"),
+      batirCard: enriched.find((c) => c.slot === "batir"),
+      ecosystemCards: enriched.filter((c) => c.section === "ecosysteme"),
+    };
   }, [t.bento.cards, lang, open]);
+
+  const manifesteHeading = t.hub.sectionHeadings.manifeste;
 
   return (
     <section
@@ -182,60 +169,51 @@ export default function BentoHub() {
           />
         </HubSectionReveal>
 
-        {SECTION_ORDER.map((sectionKey) => {
-          if (sectionKey === "realite") {
-            const heading = t.hub.sectionHeadings.realite;
-            return (
-              <HubSectionReveal key="realite" className="mt-12 md:mt-16">
-                <HubSectionHeader
-                  eyebrow={t.hub.sections.realite}
-                  title={heading.title}
-                  subtitle={heading.subtitle}
+        <HubSectionReveal className="mt-10 md:mt-12">
+          <HubSectionHeader
+            eyebrow={t.hub.sections.manifeste}
+            title={manifesteHeading.title}
+            subtitle={manifesteHeading.subtitle}
+          />
+          {aboutCard ? (
+            <div className="mt-4 md:mt-5">
+              <TwinImageCard card={aboutCard} />
+            </div>
+          ) : null}
+        </HubSectionReveal>
+
+        <ManifestoList />
+
+        {batirCard ? (
+          <HubSectionReveal className="mt-12 md:mt-16">
+            <TwinImageCard card={batirCard} />
+          </HubSectionReveal>
+        ) : null}
+
+        <div className="mt-12 md:mt-16 lg:mt-20">
+          <RealityStats />
+        </div>
+
+        {ecosystemCards.length ? (
+          <HubSectionReveal className="mt-10 md:mt-12">
+            <HubSectionHeader
+              eyebrow={t.hub.ecosystem.eyebrow}
+              title={t.hub.ecosystem.title}
+              subtitle={t.hub.ecosystem.subtitle}
+            />
+            <div className="mt-6">
+              <ChromaSection enabled={chromaEnabled} className="w-full">
+                <MagicBento
+                  cards={ecosystemCards}
+                  textAutoHide
+                  gridClassName="card-grid--ecosysteme"
                 />
-                <div className="mt-6">
-                  <StatsGrid />
-                </div>
-              </HubSectionReveal>
-            );
-          }
+              </ChromaSection>
+            </div>
+          </HubSectionReveal>
+        ) : null}
 
-          if (sectionKey === "selection") {
-            return <SelectionBlock key="selection" />;
-          }
-
-          const cards = cardGroups[sectionKey];
-          if (!cards.length) return null;
-
-          const heading = t.hub.sectionHeadings[sectionKey];
-          const useChromaSection =
-            chromaEnabled && (sectionKey === "manifeste" || sectionKey === "ecosysteme");
-
-          return (
-            <HubSectionReveal
-              key={sectionKey}
-              className={sectionKey === "manifeste" ? "mt-10 md:mt-12" : "mt-10 md:mt-12"}
-            >
-              {sectionKey === "ecosysteme" ? (
-                <EcosystemHeader />
-              ) : (
-                <HubSectionHeader
-                  eyebrow={t.hub.sections[sectionKey]}
-                  title={heading?.title}
-                  subtitle={heading?.subtitle}
-                />
-              )}
-              <div className={sectionKey === "manifeste" ? "mt-4 md:mt-5" : "mt-6"}>
-                <ChromaSection enabled={useChromaSection} className="w-full">
-                  <MagicBento
-                    cards={cards}
-                    textAutoHide
-                    gridClassName={SECTION_GRIDS[sectionKey]}
-                  />
-                </ChromaSection>
-              </div>
-            </HubSectionReveal>
-          );
-        })}
+        <SelectionBlock />
       </div>
     </section>
   );

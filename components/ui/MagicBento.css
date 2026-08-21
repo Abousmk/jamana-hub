@@ -110,9 +110,9 @@
 .magic-bento-card__overlay--hero {
   background: linear-gradient(
     to top,
-    rgba(10, 28, 21, 0.95) 0%,
-    rgba(10, 28, 21, 0.55) 45%,
-    rgba(10, 28, 21, 0.72) 100%
+    rgba(10, 28, 21, 0.97) 0%,
+    rgba(10, 28, 21, 0.72) 42%,
+    rgba(10, 28, 21, 0.82) 100%
   );
 }
 
@@ -231,47 +231,86 @@
     grid-template-columns: repeat(2, 1fr);
   }
 
-  .magic-bento-card--span-full,
-  .card-grid--manifeste .magic-bento-card:nth-child(1) {
+  .magic-bento-card--span-full {
     grid-column: 1 / -1;
   }
 }
 
 @media (min-width: 1024px) {
-  .card-grid--manifeste {
-    grid-template-columns: repeat(3, 1fr);
+  .card-grid--ecosysteme {
+    grid-template-columns: repeat(4, 1fr);
     gap: 0.75em;
   }
+}
 
-  .magic-bento-card--span-full,
-  .card-grid--manifeste .magic-bento-card:nth-child(1) {
-    grid-column: 1 / -1;
-    width: 100%;
-    max-width: none;
+/* Twin image cards: À propos + Bâtir — identical format */
+.card-grid--twins {
+  grid-template-columns: 1fr;
+  gap: 0;
+  padding: 0;
+}
+
+.card-grid--twins .magic-bento-card,
+.card-grid--twins .magic-bento-card--hero {
+  grid-column: 1 / -1;
+  width: 100%;
+  max-width: none;
+  aspect-ratio: 16 / 10;
+  min-height: 168px;
+  padding: 1.35em 1.5em;
+}
+
+.card-grid--twins .magic-bento-card__title,
+.card-grid--twins .magic-bento-card--hero .magic-bento-card__title {
+  font-size: clamp(1.25em, 2.4vw, 1.7em);
+  --clamp-title: 2;
+}
+
+.card-grid--twins .magic-bento-card__description,
+.card-grid--twins .magic-bento-card--hero .magic-bento-card__description {
+  max-width: 52ch;
+  --clamp-desc: 5;
+  font-size: 0.8em;
+}
+
+.card-grid--twins .magic-bento-card__overlay,
+.card-grid--twins .magic-bento-card__overlay--hero {
+  background: linear-gradient(
+    to top,
+    rgba(10, 28, 21, 0.98) 0%,
+    rgba(10, 28, 21, 0.86) 48%,
+    rgba(10, 28, 21, 0.92) 100%
+  );
+}
+
+.card-grid--twins .magic-bento-card__bg img {
+  filter: brightness(0.48);
+}
+
+@media (min-width: 768px) {
+  .card-grid--twins .magic-bento-card,
+  .card-grid--twins .magic-bento-card--hero {
     aspect-ratio: 21 / 8;
     min-height: 200px;
     padding: 1.75em 2em;
   }
+}
 
-  .card-grid--manifeste .magic-bento-card:nth-child(1) .magic-bento-card__title {
-    font-size: clamp(1.35em, 2.2vw, 1.7em);
-    --clamp-title: 2;
+@media (max-width: 599px) {
+  .card-grid--twins {
+    padding: 0;
   }
 
-  .card-grid--manifeste .magic-bento-card:nth-child(4) {
-    aspect-ratio: 4 / 3;
-    min-height: 180px;
-    padding: 1.5em;
+  .card-grid--twins .magic-bento-card,
+  .card-grid--twins .magic-bento-card--hero {
+    aspect-ratio: 4 / 5;
+    min-height: 300px;
+    padding: 1.25em;
   }
 
-  .card-grid--manifeste .magic-bento-card:nth-child(4) .magic-bento-card__title {
-    font-size: clamp(1.2em, 1.8vw, 1.45em);
-    --clamp-title: 2;
-  }
-
-  .card-grid--ecosysteme {
-    grid-template-columns: repeat(4, 1fr);
-    gap: 0.75em;
+  .card-grid--twins .magic-bento-card--hero .magic-bento-card__description {
+    --clamp-desc: 5;
+    max-width: none;
   }
 }
 
