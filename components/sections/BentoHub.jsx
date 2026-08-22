@@ -147,8 +147,6 @@ export default function BentoHub() {
     };
   }, [t.bento.cards, lang, open]);
 
-  const manifesteHeading = t.hub.sectionHeadings.manifeste;
-
   return (
     <section
       id="hub"
@@ -162,25 +160,16 @@ export default function BentoHub() {
 
       <div className="relative z-10 mx-auto w-full max-w-[1400px]">
         <HubSectionReveal>
-          <HubSectionHeader
-            eyebrow={t.bento.eyebrow}
-            title={t.bento.title}
-            subtitle={t.bento.subtitle}
-          />
+          <h2 className="title-display text-balance font-display text-[clamp(2.5rem,6vw,4.5rem)] font-normal leading-[1.12] tracking-[-0.02em] text-cream">
+            {t.bento.eyebrow}
+          </h2>
         </HubSectionReveal>
 
-        <HubSectionReveal className="mt-10 md:mt-12">
-          <HubSectionHeader
-            eyebrow={t.hub.sections.manifeste}
-            title={manifesteHeading.title}
-            subtitle={manifesteHeading.subtitle}
-          />
-          {aboutCard ? (
-            <div className="mt-4 md:mt-5">
-              <TwinImageCard card={aboutCard} />
-            </div>
-          ) : null}
-        </HubSectionReveal>
+        {aboutCard ? (
+          <HubSectionReveal className="mt-6 md:mt-8">
+            <TwinImageCard card={aboutCard} />
+          </HubSectionReveal>
+        ) : null}
 
         <ManifestoList />
 

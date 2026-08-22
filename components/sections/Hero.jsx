@@ -112,7 +112,7 @@ export default function Hero() {
   return (
     <section
       id="hero"
-      className="relative flex min-h-[100dvh] max-h-[100dvh] flex-col overflow-hidden bg-green-abyss"
+      className="relative flex min-h-[100dvh] flex-col overflow-hidden bg-green-abyss"
     >
       <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
         <HeroBackgroundFallback animate={motionActive} isDesktop={isDesktop} />
@@ -124,8 +124,7 @@ export default function Hero() {
         ) : null}
       </div>
 
-      {/* Centered stack only — bottom padding clears absolute coords / scroll cue */}
-      <div className="relative z-10 mx-auto flex w-full max-w-3xl flex-1 flex-col items-center justify-center px-4 pt-16 pb-28 text-center sm:px-6 sm:pb-32 md:px-8 md:pb-36">
+      <div className="relative z-10 mx-auto flex w-full max-w-3xl flex-1 flex-col items-center justify-center px-4 pt-16 text-center sm:px-6 md:px-8">
         <Emblem variant="hero" />
 
         <DelayedFade delay={0.45} disableMotion={disableMotion} motionKey={motionKey}>
@@ -162,9 +161,8 @@ export default function Hero() {
         </DelayedFade>
       </div>
 
-      {/* Bottom chrome — outside the text stack, never in the CTA flow */}
-      <div className="pointer-events-none absolute inset-x-0 bottom-6 z-10 px-4 sm:px-6 md:px-8">
-        <div className="pointer-events-auto relative mx-auto flex max-w-[1400px] items-end justify-between gap-3 sm:gap-4">
+      <div className="relative z-10 mt-auto shrink-0 px-4 pb-6 pt-[4.5rem] sm:px-6 sm:pt-20 md:px-8">
+        <div className="relative mx-auto flex max-w-[1400px] items-end justify-between gap-3 sm:gap-4">
           <DelayedFade delay={1.15} disableMotion={disableMotion} motionKey={motionKey}>
             <HeroCoords label={t.hero.coordMontrealLabel} value={t.hero.coordMontreal} />
           </DelayedFade>
