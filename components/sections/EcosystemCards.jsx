@@ -82,7 +82,7 @@ function EcoCard({ pillar, href, discover, variants }) {
           </span>
         </div>
 
-        <p className="mt-5 font-body text-base leading-[1.65] text-cream/75">
+        <p className="mt-5 max-w-[70ch] font-body text-base leading-[1.65] text-cream/85 md:text-lg">
           {pillar.description}
         </p>
 
@@ -121,41 +121,43 @@ export default function EcosystemCards() {
   const listVariants = disableMotion ? staticFade : editorialStagger;
 
   return (
-    <div id="ecosysteme" className="mt-12 scroll-mt-20 md:mt-16 lg:mt-20">
-      <motion.div
-        key={motionKey}
-        variants={listVariants}
-        initial="hidden"
-        whileInView="show"
-        viewport={editorialViewport}
-      >
-        <motion.header variants={variants} className="text-left">
-          <SectionEyebrow>{eyebrow}</SectionEyebrow>
-          <div className="mt-4 flex flex-col gap-3 md:mt-5 md:flex-row md:items-end md:justify-between md:gap-10 lg:gap-16">
-            <h2 className="title-display title-backdrop text-balance font-display text-[clamp(2.35rem,5.8vw,4rem)] font-normal leading-[1.08] tracking-[-0.02em] text-cream">
-              {title}
-            </h2>
-            <p className="max-w-[22rem] shrink-0 font-body text-sm italic leading-relaxed text-cream/55 md:max-w-[18rem] md:pb-1 md:text-right lg:max-w-[22rem]">
-              {subtitle}
-            </p>
-          </div>
-        </motion.header>
-
-        <motion.ul
+    <section id="ecosysteme" className="section-solid scroll-mt-20">
+      <div className="section-solid-content">
+        <motion.div
+          key={motionKey}
           variants={listVariants}
-          className="mt-14 grid list-none grid-cols-1 gap-6 p-0 md:mt-16 md:grid-cols-2 md:gap-8 lg:mt-[4.5rem] lg:gap-10"
+          initial="hidden"
+          whileInView="show"
+          viewport={editorialViewport}
         >
-          {pillars.map((pillar) => (
-            <EcoCard
-              key={pillar.id}
-              pillar={pillar}
-              href={pillar.href ? withLocale(pillar.href, lang) : undefined}
-              discover={discover}
-              variants={variants}
-            />
-          ))}
-        </motion.ul>
-      </motion.div>
-    </div>
+          <motion.header variants={variants} className="text-left">
+            <SectionEyebrow>{eyebrow}</SectionEyebrow>
+            <div className="mt-4 flex flex-col gap-3 md:mt-5 md:flex-row md:items-end md:justify-between md:gap-10 lg:gap-16">
+              <h2 className="title-display title-backdrop text-balance font-display text-[clamp(2.35rem,5.8vw,4rem)] font-normal leading-[1.08] tracking-[-0.02em] text-cream">
+                {title}
+              </h2>
+              <p className="max-w-[70ch] shrink-0 font-body text-base italic leading-[1.65] text-cream/80 md:max-w-[22rem] md:pb-1 md:text-right">
+                {subtitle}
+              </p>
+            </div>
+          </motion.header>
+
+          <motion.ul
+            variants={listVariants}
+            className="mt-14 grid list-none grid-cols-1 gap-6 p-0 md:mt-16 md:grid-cols-2 md:gap-8 lg:mt-[4.5rem] lg:gap-10"
+          >
+            {pillars.map((pillar) => (
+              <EcoCard
+                key={pillar.id}
+                pillar={pillar}
+                href={pillar.href ? withLocale(pillar.href, lang) : undefined}
+                discover={discover}
+                variants={variants}
+              />
+            ))}
+          </motion.ul>
+        </motion.div>
+      </div>
+    </section>
   );
 }

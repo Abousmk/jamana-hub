@@ -36,7 +36,8 @@ body {
   background-color: #0a1c15;
   color: #f5f0e3;
   font-family: var(--font-body), sans-serif;
-  line-height: 1.7;
+  font-size: 1rem;
+  line-height: 1.65;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -63,6 +64,80 @@ body {
   max-width: 1400px;
   margin-left: auto;
   margin-right: auto;
+}
+
+/*
+  Solid reading layers sit ABOVE GlobalBackground weave (z-0, fixed)
+  and BELOW section content. Hero / breathing zones stay uncovered
+  so the weave remains visible there.
+
+  Stack: section (relative, isolate)
+    ::before — absolute inset-0 z-0 opaque green + 52px edge fade
+    .section-solid-content — relative z-10
+*/
+.section-solid,
+.section-solid-alt {
+  position: relative;
+  isolation: isolate;
+}
+
+.section-solid::before,
+.section-solid-alt::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.section-solid::before {
+  background: linear-gradient(
+    to bottom,
+    rgba(10, 28, 21, 0) 0%,
+    rgba(10, 28, 21, 0.97) 52px,
+    rgba(10, 28, 21, 0.97) calc(100% - 52px),
+    rgba(10, 28, 21, 0) 100%
+  );
+}
+
+.section-solid-alt::before {
+  background: linear-gradient(
+    to bottom,
+    rgba(13, 37, 29, 0) 0%,
+    rgba(13, 37, 29, 0.97) 52px,
+    rgba(13, 37, 29, 0.97) calc(100% - 52px),
+    rgba(13, 37, 29, 0) 100%
+  );
+}
+
+.section-solid-content {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  max-width: 1400px;
+  margin-inline: auto;
+  padding: 4rem 1rem;
+}
+
+@media (min-width: 640px) {
+  .section-solid-content {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .section-solid-content {
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .section-solid-content {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
 }
 
 .text-balance {

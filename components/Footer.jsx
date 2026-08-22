@@ -13,7 +13,7 @@ import FooterSignature from "@/components/ui/FooterSignature";
 import { LOGO_SRC, IMAGE_QUALITY, IMAGE_SIZES } from "@/lib/imageConfig";
 
 const linkClass =
-  "font-body text-sm text-cream/55 transition-[transform,color] duration-300 hover:translate-x-[3px] hover:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold";
+  "font-body text-sm text-cream/65 transition-[transform,color] duration-300 hover:translate-x-[3px] hover:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold";
 
 export default function Footer() {
   const { t, lang } = useLang();
@@ -115,7 +115,7 @@ export default function Footer() {
             >
               <Link
                 href={withLocale("/mentions-legales", lang)}
-                className="font-body text-xs text-cream/30 transition-colors duration-300 hover:text-cream/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
+                className="font-body text-xs text-cream/60 transition-colors duration-300 hover:text-cream/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
               >
                 {t.footer.legal.notice}
               </Link>
@@ -124,12 +124,12 @@ export default function Footer() {
               </span>
               <Link
                 href={withLocale("/confidentialite", lang)}
-                className="font-body text-xs text-cream/30 transition-colors duration-300 hover:text-cream/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
+                className="font-body text-xs text-cream/60 transition-colors duration-300 hover:text-cream/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
               >
                 {t.footer.legal.privacy}
               </Link>
             </nav>
-            <p className="font-body text-xs text-cream/35">
+            <p className="font-body text-xs text-cream/60">
               © 2026 Jamana Hub. {t.footer.rights}
             </p>
           </div>

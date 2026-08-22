@@ -141,7 +141,7 @@
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.16em;
-  color: rgba(200, 169, 81, 0.8);
+  color: rgba(200, 169, 81, 0.85);
 }
 
 .magic-bento-card__title,
@@ -161,10 +161,9 @@
 
 .magic-bento-card__description {
   font-family: var(--font-body), sans-serif;
-  font-size: 0.74em;
-  line-height: 1.5;
-  opacity: 0.8;
-  color: rgba(245, 240, 227, 0.88);
+  font-size: 1rem;
+  line-height: 1.65;
+  color: rgba(245, 240, 227, 0.85);
   margin: 0;
 }
 
@@ -198,8 +197,9 @@
 }
 
 .magic-bento-card--hero .magic-bento-card__description {
-  font-size: 0.82em;
-  max-width: 28ch;
+  font-size: 1rem;
+  line-height: 1.65;
+  max-width: 70ch;
 }
 
 .magic-bento-card--hero .magic-bento-card__label {
@@ -268,9 +268,11 @@
 
 .card-grid--twins .magic-bento-card__description,
 .card-grid--twins .magic-bento-card--hero .magic-bento-card__description {
-  max-width: 52ch;
+  max-width: 70ch;
   --clamp-desc: 5;
-  font-size: 0.8em;
+  font-size: 1rem;
+  line-height: 1.65;
+  color: rgba(245, 240, 227, 0.85);
 }
 
 .card-grid--twins .magic-bento-card__overlay,

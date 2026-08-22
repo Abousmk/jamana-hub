@@ -35,7 +35,7 @@ export default function HeroScrollArrow({ label }) {
         <span className="block h-7 w-px bg-gold/50 sm:h-8" aria-hidden="true" />
       )}
 
-      <span className="font-util text-[0.65rem] uppercase tracking-[0.25em] text-cream/45 transition-colors duration-300 group-hover:text-gold/80">
+      <span className="font-util text-[0.65rem] uppercase tracking-[0.25em] text-cream/65 transition-colors duration-300 group-hover:text-gold/80">
         {label}
       </span>
     </button>

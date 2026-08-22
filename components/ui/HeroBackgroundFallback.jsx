@@ -34,26 +34,25 @@ export default function HeroBackgroundFallback({
         }}
       />
 
+      <WeavePattern
+        opacity={showMobileFallback ? 0.12 : 0.06}
+        mobileMaxOpacity={0.12}
+        animate={animate}
+        className="z-[1]"
+      />
+
       {showMobileFallback ? (
-        <>
-          <WeavePattern
-            opacity={0.12}
-            mobileMaxOpacity={0.12}
-            animate={animate}
-            className="z-[1]"
+        <div className="absolute inset-0 z-[1] flex items-center justify-center">
+          <Image
+            src={EMBLEM_SRC}
+            alt=""
+            width={420}
+            height={420}
+            quality={IMAGE_QUALITY.emblem}
+            sizes="280px"
+            className="h-auto w-[min(70%,280px)] opacity-[0.06]"
           />
-          <div className="absolute inset-0 z-[1] flex items-center justify-center">
-            <Image
-              src={EMBLEM_SRC}
-              alt=""
-              width={420}
-              height={420}
-              quality={IMAGE_QUALITY.emblem}
-              sizes="280px"
-              className="h-auto w-[min(70%,280px)] opacity-[0.06]"
-            />
-          </div>
-        </>
+        </div>
       ) : null}
 
       <div

@@ -82,10 +82,10 @@ function HeroCoords({ label, value, align = "left" }) {
         align === "right" ? "items-end text-right" : "items-start text-left"
       }`}
     >
-      <span className="font-util text-[0.625rem] uppercase tracking-[0.2em] text-cream/45 md:text-[0.6875rem]">
+      <span className="font-util text-[0.625rem] uppercase tracking-[0.2em] text-cream/65 md:text-[0.6875rem]">
         {label}
       </span>
-      <span className="font-util text-[0.625rem] uppercase tracking-[0.2em] text-cream/40 md:text-[0.6875rem]">
+      <span className="font-util text-[0.625rem] uppercase tracking-[0.2em] text-cream/65 md:text-[0.6875rem]">
         {value}
       </span>
     </div>
@@ -112,7 +112,7 @@ export default function Hero() {
   return (
     <section
       id="hero"
-      className="relative flex min-h-[100dvh] flex-col overflow-hidden bg-green-abyss"
+      className="relative flex min-h-[100dvh] flex-col overflow-hidden bg-transparent"
     >
       <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
         <HeroBackgroundFallback animate={motionActive} isDesktop={isDesktop} />
@@ -141,7 +141,7 @@ export default function Hero() {
         />
 
         <DelayedFade delay={0.85} disableMotion={disableMotion} motionKey={motionKey}>
-          <p className="text-pretty mt-5 max-w-[540px] font-body text-[0.95rem] leading-relaxed text-cream/70 md:text-lg">
+          <p className="text-pretty mt-5 max-w-[70ch] font-body text-base leading-[1.65] text-cream/80 md:text-lg">
             {t.hero.subtitle}
           </p>
         </DelayedFade>
