@@ -27,14 +27,14 @@ import RealityStats from "@/components/sections/RealityStats";
 const HUB_HEADER_CLASS = "text-left";
 
 const SECTION_TITLE_CLASS =
-  "title-display text-balance mt-3 font-display text-[clamp(1.65rem,4.5vw,2.5rem)] leading-tight text-cream";
+  "title-display title-backdrop text-balance mt-3 font-display text-[clamp(1.65rem,4.5vw,2.5rem)] leading-tight text-cream";
 const SECTION_SUBTITLE_CLASS =
-  "text-pretty mt-3 font-body text-[clamp(1rem,2.2vw,1.25rem)] leading-relaxed text-cream/70";
+  "text-veil text-pretty mt-3 font-body text-[clamp(1rem,2.2vw,1.25rem)] leading-relaxed text-cream/75";
 
 function HubSectionHeader({ eyebrow, title, subtitle, className = "" }) {
   return (
     <header className={`${HUB_HEADER_CLASS} ${className}`.trim()}>
-      <SectionEyebrow className="tracking-[0.25em]">{eyebrow}</SectionEyebrow>
+      <SectionEyebrow>{eyebrow}</SectionEyebrow>
       {title ? <h2 className={SECTION_TITLE_CLASS}>{title}</h2> : null}
       {subtitle ? <h3 className={SECTION_SUBTITLE_CLASS}>{subtitle}</h3> : null}
     </header>
@@ -108,10 +108,10 @@ function SelectionBlock() {
           <p className="font-display text-lg text-gold/90 md:text-xl">
             {t.selection.lead}
           </p>
-          <p className="font-body text-sm leading-relaxed text-cream/75 md:text-base">
+          <p className="font-body text-base leading-[1.65] text-cream/75">
             {t.selection.body}
           </p>
-          <p className="font-body text-sm italic text-cream/55 md:text-base">
+          <p className="font-body text-base italic leading-[1.65] text-cream/55">
             {t.selection.closing}
           </p>
           <div className="pt-2">
@@ -156,11 +156,11 @@ export default function BentoHub() {
         className="pointer-events-none absolute inset-0 bg-gradient-to-b from-green-deep/78 via-green-deep/68 to-green-abyss/78"
         aria-hidden="true"
       />
-      <WeavePattern opacity={0.08} className="z-[1]" />
+      <WeavePattern opacity={0.075} className="z-[1]" />
 
       <div className="relative z-10 mx-auto w-full max-w-[1400px]">
         <HubSectionReveal>
-          <h2 className="title-display text-balance font-display text-[clamp(2.5rem,6vw,4.5rem)] font-normal leading-[1.12] tracking-[-0.02em] text-cream">
+          <h2 className="title-display title-backdrop text-balance font-display text-[clamp(2.5rem,6vw,4.5rem)] font-normal leading-[1.12] tracking-[-0.02em] text-cream">
             {t.bento.eyebrow}
           </h2>
         </HubSectionReveal>

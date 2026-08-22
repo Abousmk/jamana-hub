@@ -29,8 +29,8 @@ export default function RealityStats() {
         viewport={editorialViewport}
         className="text-left"
       >
-        <SectionEyebrow className="tracking-[0.25em]">{eyebrow}</SectionEyebrow>
-        <h2 className="title-display text-balance mt-3 font-display text-[clamp(1.65rem,4.5vw,2.5rem)] leading-tight text-cream">
+        <SectionEyebrow>{eyebrow}</SectionEyebrow>
+        <h2 className="title-display title-backdrop text-balance mt-3 font-display text-[clamp(1.65rem,4.5vw,2.5rem)] leading-tight text-cream">
           {title}
         </h2>
         {source ? (
@@ -52,11 +52,12 @@ export default function RealityStats() {
           <motion.div
             key={`${stat.number}-${stat.label}`}
             variants={variants}
+            className="text-veil"
           >
             <p className="font-display text-[clamp(2.5rem,7vw,3.75rem)] font-normal leading-none tracking-tight text-gold-light">
               {stat.number}
             </p>
-            <p className="mt-3 max-w-[28ch] font-body text-sm leading-relaxed text-cream/70 md:text-[0.9375rem]">
+            <p className="mt-3 max-w-[28ch] font-body text-base leading-[1.65] text-cream/75">
               {stat.label}
             </p>
           </motion.div>
@@ -72,7 +73,7 @@ export default function RealityStats() {
         transition={
           disableMotion ? undefined : { duration: 0.8, ease: EDITORIAL_EASE }
         }
-        className="mt-14 text-center font-display text-[clamp(1.125rem,2.8vw,1.5rem)] italic leading-snug text-cream/85 md:mt-16"
+        className="title-backdrop-center mt-14 text-center font-display text-[clamp(1.125rem,2.8vw,1.5rem)] italic leading-snug text-cream/85 md:mt-16"
       >
         {closing}
       </motion.p>

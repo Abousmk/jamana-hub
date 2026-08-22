@@ -28,8 +28,8 @@ export default function ManifestoList() {
         viewport={editorialViewport}
         className="text-left"
       >
-        <SectionEyebrow className="tracking-[0.25em]">{eyebrow}</SectionEyebrow>
-        <h3 className="title-display text-balance mt-3 font-display text-[clamp(1.65rem,4.5vw,2.5rem)] leading-tight text-cream">
+        <SectionEyebrow>{eyebrow}</SectionEyebrow>
+        <h3 className="title-display title-backdrop text-balance mt-4 font-display text-[clamp(2rem,5vw,3.25rem)] leading-tight text-cream">
           {title}
         </h3>
       </motion.header>
@@ -40,26 +40,26 @@ export default function ManifestoList() {
         initial="hidden"
         whileInView="show"
         viewport={editorialViewport}
-        className="mt-10 list-none space-y-0 border-t border-gold/[0.12] p-0 md:mt-12"
+        className="mt-10 list-none p-0 md:mt-12"
       >
         {items.map((item) => (
           <motion.li
             key={item.number}
             variants={variants}
-            className="grid grid-cols-1 gap-3 border-b border-gold/[0.12] py-8 md:grid-cols-[minmax(4.5rem,auto)_1fr] md:gap-8 md:py-10 lg:gap-12 lg:py-12"
+            className="grid grid-cols-1 items-start gap-4 border-t border-gold/[0.12] py-[2.25rem] last:border-b md:grid-cols-[auto_1fr] md:gap-10 md:py-10 lg:gap-14"
           >
             <span
               aria-hidden="true"
-              className="font-display text-[clamp(2.75rem,8vw,4.5rem)] leading-none text-gold/90"
+              className="font-display text-[clamp(3rem,6vw,5rem)] leading-none text-gold/[0.85]"
             >
               {item.number}
             </span>
-            <div className="min-w-0 md:pt-1">
-              <h4 className="font-display text-[clamp(1.35rem,3vw,1.85rem)] leading-tight text-cream">
+            <div className="text-veil min-w-0">
+              <h4 className="font-display text-[clamp(1.6rem,3vw,2rem)] leading-tight text-cream">
                 <span className="sr-only">{item.number} — </span>
                 {item.title}
               </h4>
-              <p className="mt-3 max-w-[65ch] font-body text-[clamp(0.95rem,2vw,1.0625rem)] leading-relaxed text-cream/70">
+              <p className="mt-3 max-w-[65ch] font-body text-base leading-[1.65] text-cream/75 md:text-lg">
                 {item.body}
               </p>
             </div>

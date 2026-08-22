@@ -78,6 +78,53 @@ body {
   overflow-wrap: normal;
 }
 
+/* Soft radial veil so weave never sits as a hard block behind type */
+.title-backdrop,
+.title-backdrop-center,
+.text-veil {
+  position: relative;
+  isolation: isolate;
+}
+
+.title-backdrop::before,
+.title-backdrop-center::before,
+.text-veil::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.title-backdrop::before {
+  inset: -0.45em -1.1em;
+  background: radial-gradient(
+    ellipse 80% 85% at 18% 50%,
+    rgba(10, 28, 21, 0.8) 0%,
+    rgba(10, 28, 21, 0.42) 42%,
+    transparent 74%
+  );
+}
+
+.title-backdrop-center::before {
+  inset: -0.55em -1.4em;
+  background: radial-gradient(
+    ellipse 70% 80% at 50% 50%,
+    rgba(10, 28, 21, 0.8) 0%,
+    rgba(10, 28, 21, 0.4) 44%,
+    transparent 74%
+  );
+}
+
+.text-veil::before {
+  inset: -0.85em -1.15em;
+  background: radial-gradient(
+    ellipse 88% 80% at 22% 40%,
+    rgba(10, 28, 21, 0.72) 0%,
+    rgba(10, 28, 21, 0.3) 50%,
+    transparent 76%
+  );
+}
+
 @keyframes weave-drift {
   from {
     transform: translate3d(0, 0, 0);

@@ -29,7 +29,7 @@ export default function MediaView() {
           className="pointer-events-none absolute inset-0 bg-gradient-to-b from-green-deep/78 via-green-deep/68 to-green-abyss/78"
           aria-hidden="true"
         />
-        <WeavePattern opacity={0.08} className="z-[1]" />
+        <WeavePattern opacity={0.075} className="z-[1]" />
         <motion.div
           variants={reducedMotion ? staticFade : fadeUp}
           initial="hidden"
@@ -39,11 +39,11 @@ export default function MediaView() {
         >
           <SectionEyebrow>{m.eyebrow}</SectionEyebrow>
 
-          <h1 className="mt-4 font-display text-[clamp(2rem,6vw,3.25rem)] font-normal leading-[1.12] tracking-[-0.02em] text-cream">
+          <h1 className="title-backdrop-center mt-4 font-display text-[clamp(2rem,6vw,3.25rem)] font-normal leading-[1.12] tracking-[-0.02em] text-cream">
             {m.title}
           </h1>
 
-          <p className="mt-5 max-w-lg font-body text-base leading-relaxed text-cream/70 md:text-lg">
+          <p className="text-veil mt-5 max-w-lg font-body text-base leading-relaxed text-cream/75 md:text-lg">
             {m.intro}
           </p>
 

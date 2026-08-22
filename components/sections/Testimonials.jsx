@@ -39,7 +39,7 @@ export default function Testimonials() {
 
         <motion.h2
           variants={disableMotion ? staticFade : softFadeUp}
-          className="title-display text-balance mt-3 font-display text-[clamp(1.5rem,4vw,2.25rem)] leading-[1.15] tracking-[-0.02em] text-cream"
+          className="title-display title-backdrop-center text-balance mt-3 font-display text-[clamp(1.5rem,4vw,2.25rem)] leading-[1.15] tracking-[-0.02em] text-cream"
         >
           {t.testimonials.title}
         </motion.h2>
