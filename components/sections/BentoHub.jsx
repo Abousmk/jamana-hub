@@ -13,7 +13,6 @@ import { useLang } from "@/lib/i18n";
 import { withLocale } from "@/lib/locale";
 import { images } from "@/lib/images";
 import { IMAGE_QUALITY, IMAGE_SIZES } from "@/lib/imageConfig";
-import { useChromaEnabled } from "@/lib/useChromaEnabled";
 import { useTally } from "@/components/TallyModal";
 import { useMotionActive } from "@/lib/useMotionActive";
 import SectionEyebrow from "@/components/ui/SectionEyebrow";
@@ -23,6 +22,7 @@ import MagicBento from "@/components/ui/MagicBento";
 import ChromaSection from "@/components/ui/ChromaSection";
 import ManifestoList from "@/components/sections/ManifestoList";
 import RealityStats from "@/components/sections/RealityStats";
+import EcosystemCards from "@/components/sections/EcosystemCards";
 
 const HUB_HEADER_CLASS = "text-left";
 
@@ -136,14 +136,12 @@ function TwinImageCard({ card }) {
 export default function BentoHub() {
   const { t, lang } = useLang();
   const { open } = useTally();
-  const chromaEnabled = useChromaEnabled();
 
-  const { aboutCard, batirCard, ecosystemCards } = useMemo(() => {
+  const { aboutCard, batirCard } = useMemo(() => {
     const enriched = t.bento.cards.map((card) => enrichCard(card, lang, open));
     return {
       aboutCard: enriched.find((c) => c.slot === "about"),
       batirCard: enriched.find((c) => c.slot === "batir"),
-      ecosystemCards: enriched.filter((c) => c.section === "ecosysteme"),
     };
   }, [t.bento.cards, lang, open]);
 
@@ -183,24 +181,7 @@ export default function BentoHub() {
           <RealityStats />
         </div>
 
-        {ecosystemCards.length ? (
-          <HubSectionReveal className="mt-10 md:mt-12">
-            <HubSectionHeader
-              eyebrow={t.hub.ecosystem.eyebrow}
-              title={t.hub.ecosystem.title}
-              subtitle={t.hub.ecosystem.subtitle}
-            />
-            <div className="mt-6">
-              <ChromaSection enabled={chromaEnabled} className="w-full">
-                <MagicBento
-                  cards={ecosystemCards}
-                  textAutoHide
-                  gridClassName="card-grid--ecosysteme"
-                />
-              </ChromaSection>
-            </div>
-          </HubSectionReveal>
-        ) : null}
+        <EcosystemCards />
 
         <SelectionBlock />
       </div>
